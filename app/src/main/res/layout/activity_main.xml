@@ -14,7 +14,9 @@
         android:layout_marginLeft="28dp"
         android:layout_marginRight="28dp"
         android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
         android:hint="First name"
+        android:inputType="textCapWords"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/lastNameEditText"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,6 +33,7 @@
         android:layout_marginRight="28dp"
         android:layout_marginStart="28dp"
         android:hint="Last name"
+        android:inputType="textCapWords"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/emailEditText"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,6 +51,7 @@
         android:layout_marginStart="28dp"
         android:hint="Email"
         android:textSize="20sp"
+        android:inputType="textEmailAddress"
         app:layout_constraintBottom_toTopOf="@+id/phoneEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -63,6 +67,7 @@
         android:layout_marginRight="28dp"
         android:layout_marginStart="28dp"
         android:hint="Phone"
+        android:inputType="phone"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/passwordEditText"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,19 +84,36 @@
         android:layout_marginRight="28dp"
         android:layout_marginStart="28dp"
         android:hint="Password"
+        android:inputType="textPassword"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/errorList"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/passwordConfirmEditText"
+        app:layout_constraintEnd_toEndOf="@+id/phoneEditText"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phoneEditText" />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/passwordConfirmEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginRight="28dp"
+        android:layout_marginStart="28dp"
+        android:inputType="textPassword"
+        android:hint="Confirm password"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
 
     <Button
         android:id="@+id/button"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="59dp"
-        android:layout_marginBottom="32dp"
         android:layout_marginEnd="28dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -102,23 +124,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/errorList" />
-
-    <TextView
-        android:id="@+id/errorList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:text="Please, input your data"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordConfirmEditText" />
 
 
 </android.support.constraint.ConstraintLayout>
