@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">roman_vit_app</string>
+    <string name="text_view">Your name is:&#160;</string>
+    <string name="text_hint">Input your name</string>
+    <string name="button_text">show name</string>
+    <string name="content_desc">picture</string>
 </resources>

@@ -1,13 +1,12 @@
 package com.vit.roman.roman_vit_app;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
-import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,13 +19,13 @@ public class MainActivity extends AppCompatActivity {
 
         Button button = findViewById(R.id.button);
         ImageButton clearButton = findViewById(R.id.clear_button);
-        final MaterialEditText materialEditText = findViewById(R.id.materialEditText);
+        final EditText editText = findViewById(R.id.editText);
         final TextView nameTextView = findViewById(R.id.name_text);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nameText = materialEditText.getText().toString();
+                nameText = editText.getText().toString();
                 nameTextView.setText(nameText);
             }
         });
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                materialEditText.setText("");
+                editText.setText("");
             }
         });
 
