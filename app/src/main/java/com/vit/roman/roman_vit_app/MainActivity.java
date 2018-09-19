@@ -5,18 +5,17 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
-
-import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MaterialEditText firstNameEdit;
-    private MaterialEditText lastNameEdit;
-    private MaterialEditText emailEdit;
-    private MaterialEditText phoneEdit;
-    private MaterialEditText passwordEdit;
-    private MaterialEditText passwordConfirmEdit;
+    private EditText firstNameEdit;
+    private EditText lastNameEdit;
+    private EditText emailEdit;
+    private EditText phoneEdit;
+    private EditText passwordEdit;
+    private EditText passwordConfirmEdit;
 
     private String firstNameText;
     private String lastNameText;
