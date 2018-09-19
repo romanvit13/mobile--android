@@ -76,6 +76,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void onSignUpSuccess() {
         Intent intent = new Intent(MainActivity.this, RegisteredActivity.class);
+        User user = new User(1, firstNameText, lastNameText, phoneText);
+        UserPref userPref = new UserPref(MainActivity.this);
+        userPref.putUser(user);
+        Toast.makeText(getApplicationContext(), "DONE", Toast.LENGTH_SHORT).show();
         startActivity(intent);
     }
 
