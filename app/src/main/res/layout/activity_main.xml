@@ -14,6 +14,7 @@
             android:id="@+id/firstNameEditText"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:inputType="textCapWords"
             android:hint="@string/first_name_hint" />
 
     </android.support.design.widget.TextInputLayout>
@@ -28,6 +29,7 @@
             android:id="@+id/lastNameEditText"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:inputType="textCapWords"
             android:hint="@string/last_name_hint" />
 
     </android.support.design.widget.TextInputLayout>
@@ -68,6 +70,7 @@
             android:id="@+id/passwordEditText"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:inputType="textPassword"
             android:hint="@string/password_hint" />
     </android.support.design.widget.TextInputLayout>
 
@@ -81,20 +84,39 @@
             android:id="@+id/passwordConfirmEditText"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:inputType="textPassword"
             android:hint="@string/confirm_password_hint" />
     </android.support.design.widget.TextInputLayout>
 
 
 
 
-    <Button
-        android:id="@+id/button"
-        style="@style/Widget.AppCompat.Button.Colored"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="59dp"
-        android:layout_margin="@dimen/layout_margin"
-        android:text="SUBMIT"
-        android:textSize="16sp" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/submit_button"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="60dp"
+            android:layout_marginStart="@dimen/layout_margin"
+            android:layout_marginEnd="4dp"
+            android:text="@string/submit_button"
+            android:textSize="16sp" />
 
+        <Button
+            android:id="@+id/list_button"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="@dimen/layout_margin"
+            android:text="@string/show_button"
+            android:textSize="16sp"
+            />
+    </LinearLayout>
 
 </LinearLayout>

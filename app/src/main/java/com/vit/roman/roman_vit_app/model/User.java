@@ -1,4 +1,4 @@
-package com.vit.roman.roman_vit_app;
+package com.vit.roman.roman_vit_app.model;
 
 public class User {
     private int id;

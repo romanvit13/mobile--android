@@ -6,4 +6,6 @@
     <string name="phone_hint">Phone</string>
     <string name="password_hint">Password</string>
     <string name="confirm_password_hint">Confirm password</string>
+    <string name="submit_button">SUBMIT</string>
+    <string name="show_button">SHOW</string>
 </resources>

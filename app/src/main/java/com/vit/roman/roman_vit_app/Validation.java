@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 
 public class Validation {
 
-    public static boolean isNameValid(String nameText){
-        if (nameText.length() < 1){
+    public static boolean isNameValid(String nameText) {
+        if (nameText.length() < 1) {
             return false;
         }
         Pattern pattern;
@@ -17,7 +17,7 @@ public class Validation {
         return matcher.matches();
     }
 
-    public static boolean isPhoneValid (String phoneText) {
+    public static boolean isPhoneValid(String phoneText) {
         Pattern pattern;
         Matcher matcher;
         final String PHONE_PATTERN = "\\(?([0-9]{3})\\)?([ .-]?)([0-9]{3})\\2([0-9]{4})";
@@ -26,7 +26,7 @@ public class Validation {
         return matcher.matches();
     }
 
-    public static boolean isEmailValid (String emailText) {
+    public static boolean isEmailValid(String emailText) {
         if (emailText.length() < 3) {
             return false;
         }
@@ -38,7 +38,7 @@ public class Validation {
         return matcher.matches();
     }
 
-    public static boolean isPasswordValid(String passwordText){
+    public static boolean isPasswordValid(String passwordText) {
         if (passwordText.length() < 8) {
             return false;
         }
