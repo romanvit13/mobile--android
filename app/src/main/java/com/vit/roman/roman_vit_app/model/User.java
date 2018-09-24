@@ -13,6 +13,14 @@ public class User {
         this.phone = phone;
     }
 
+    @Override
+    public String toString() {
+        return  "User id: " + id +
+                "\nFirst name: " + firstName +
+                "\nLast name: " + lastName +
+                "\nPhone: " + phone;
+    }
+
     public int getId() {
         return id;
     }

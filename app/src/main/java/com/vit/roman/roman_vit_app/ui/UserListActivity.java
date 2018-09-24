@@ -4,7 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -23,10 +24,15 @@ public class UserListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
-        TextView userListTextView = findViewById(R.id.user_list_text_view);
+        initListView();
+    }
+
+    private void initListView() {
+        ListView listView = findViewById(R.id.list_view);
         ArrayList<User> userArrayList = getArrayList();
-        String text = listToString(userArrayList);
-        userListTextView.setText(text);
+        ArrayAdapter<User> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, userArrayList);
+        listView.setAdapter(adapter);
     }
 
     private ArrayList<User> getArrayList() {
@@ -41,16 +47,5 @@ public class UserListActivity extends AppCompatActivity {
             userArrayList = gson.fromJson(json, type);
         }
         return userArrayList;
-    }
-
-    private String listToString(ArrayList<User> arrayList) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (User user : arrayList) {
-            String userInfo = "User id: " + user.getId() + "\n" + "First name: "
-                    + user.getFirstName() + "\n" + "Last name: " + user.getLastName() + "\n"
-                    + "Phone number: " + user.getPhone() + "\n\n";
-            stringBuilder.append(userInfo);
-        }
-        return stringBuilder.toString();
     }
 }

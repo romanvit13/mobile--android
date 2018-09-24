@@ -23,23 +23,25 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String USER_PREF = "USER_PREF";
     private static final String USER_LIST = "USER_LIST";
-    private EditText firstNameEdit;
-    private EditText lastNameEdit;
-    private EditText emailEdit;
-    private EditText phoneEdit;
-    private EditText passwordEdit;
-    private EditText passwordConfirmEdit;
 
-    private String firstNameText;
-    private String lastNameText;
-    private String emailText;
-    private String phoneText;
-    private String passwordText;
-    private String passwordConfirmText;
+    private EditText mFirstNameEdit;
+    private EditText mLastNameEdit;
+    private EditText mEmailEdit;
+    private EditText mPhoneEdit;
+    private EditText mPasswordEdit;
+    private EditText mPasswordConfirmEdit;
 
+    private String mFirstNameText;
+    private String mLastNameText;
+    private String mEmailText;
+    private String mPhoneText;
+    private String mPasswordText;
+    private String mPasswordConfirmText;
+
+    private Button mSubmitButton;
+    private Button mListButton;
+    
     private SharedPreferences mUserPref;
-
-    private Button submitButton, listButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,25 +50,42 @@ public class MainActivity extends AppCompatActivity {
 
         initViews();
 
-        submitButton.setOnClickListener(new View.OnClickListener() {
+        mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                initText();
+                getText();
                 register();
             }
         });
 
-        listButton.setOnClickListener(new View.OnClickListener() {
+        mListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, UserListActivity.class);
                 startActivity(intent);
             }
         });
-
-
     }
 
+    private void initViews() {
+        mSubmitButton = findViewById(R.id.submit_button);
+        mListButton = findViewById(R.id.list_button);
+        mFirstNameEdit = findViewById(R.id.firstNameEditText);
+        mLastNameEdit = findViewById(R.id.lastNameEditText);
+        mEmailEdit = findViewById(R.id.emailEditText);
+        mPhoneEdit = findViewById(R.id.phoneEditText);
+        mPasswordEdit = findViewById(R.id.passwordEditText);
+        mPasswordConfirmEdit = findViewById(R.id.passwordConfirmEditText);
+    }
+
+    private void getText() {
+        mFirstNameText = mFirstNameEdit.getText().toString();
+        mLastNameText = mLastNameEdit.getText().toString();
+        mEmailText = mEmailEdit.getText().toString();
+        mPhoneText = mPhoneEdit.getText().toString();
+        mPasswordText = mPasswordEdit.getText().toString();
+        mPasswordConfirmText = mPasswordConfirmEdit.getText().toString();
+    }
 
     private ArrayList<User> getArrayList() {
         ArrayList<User> userArrayList = new ArrayList<>();
@@ -92,24 +111,15 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    private void initViews() {
-        submitButton = findViewById(R.id.submit_button);
-        listButton = findViewById(R.id.list_button);
-        firstNameEdit = findViewById(R.id.firstNameEditText);
-        lastNameEdit = findViewById(R.id.lastNameEditText);
-        emailEdit = findViewById(R.id.emailEditText);
-        phoneEdit = findViewById(R.id.phoneEditText);
-        passwordEdit = findViewById(R.id.passwordEditText);
-        passwordConfirmEdit = findViewById(R.id.passwordConfirmEditText);
-    }
+    private void onSignUpSuccess() {
+        ArrayList<User> userArrayList = getArrayList();
+        int lastId = userArrayList.size() + 1;
+        User user = new User(lastId, mFirstNameText, mLastNameText, mPhoneText);
 
-    private void initText() {
-        firstNameText = firstNameEdit.getText().toString();
-        lastNameText = lastNameEdit.getText().toString();
-        emailText = emailEdit.getText().toString();
-        phoneText = phoneEdit.getText().toString();
-        passwordText = passwordEdit.getText().toString();
-        passwordConfirmText = passwordConfirmEdit.getText().toString();
+        userArrayList.add(user);
+        saveArrayList(userArrayList);
+        Toast.makeText(getApplicationContext(),
+                R.string.register_success, Toast.LENGTH_SHORT).show();
     }
 
     private void register() {
@@ -121,37 +131,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void onSignUpSuccess() {
-        ArrayList<User> userArrayList = getArrayList();
-        int lastId = userArrayList.size() + 1;
-        User user = new User(lastId, firstNameText, lastNameText, phoneText);
-
-        userArrayList.add(user);
-        saveArrayList(userArrayList);
-        Toast.makeText(getApplicationContext(), "You have been registered!", Toast.LENGTH_SHORT).show();
-    }
-
     public boolean validate() {
         boolean valid = true;
-        if (!Validation.isNameValid(firstNameText)) {
-            firstNameEdit.setError("Please, enter valid first name");
+        Validation validation = new Validation();
+        if (validation.isNameValid(mFirstNameText)) {
+            mFirstNameEdit.setError(getResources().getString(R.string.first_name_valid));
             valid = false;
         }
-        if (!Validation.isNameValid(lastNameText)) {
-            lastNameEdit.setError("Please, enter valid last name");
+        if (validation.isNameValid(mLastNameText)) {
+            mLastNameEdit.setError(getResources().getString(R.string.last_name_valid));
             valid = false;
         }
-        if (!Validation.isEmailValid(emailText)) {
-            emailEdit.setError("Please, enter valid email");
+        if (!validation.isEmailValid(mEmailText)) {
+            mEmailEdit.setError(getResources().getString(R.string.email_valid));
             valid = false;
         }
-        if (!Validation.isPhoneValid(phoneText)) {
-            phoneEdit.setError("Please, enter valid phone");
+        if (!validation.isPhoneValid(mPhoneText)) {
+            mPhoneEdit.setError(getResources().getString(R.string.phone_valid));
             valid = false;
         }
-        if (!Validation.isPasswordValid(passwordText) || !(passwordText.equals(passwordConfirmText))) {
-            passwordEdit.setError("Please, enter valid password");
-            passwordConfirmEdit.setError("Please, enter valid password");
+        if (!validation.isPasswordValid(mPasswordText)
+                || !(mPasswordText.equals(mPasswordConfirmText))) {
+            mPasswordEdit.setError(getResources().getString(R.string.password_valid));
+            mPasswordConfirmEdit.setError(getResources().getString(R.string.password_valid));
             valid = false;
 
         }

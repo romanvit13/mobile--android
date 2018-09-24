@@ -8,4 +8,10 @@
     <string name="confirm_password_hint">Confirm password</string>
     <string name="submit_button">SUBMIT</string>
     <string name="show_button">SHOW</string>
+    <string name="register_success">You have been registered!</string>
+    <string name="first_name_valid">Please, enter valid first name</string>
+    <string name="last_name_valid">Please, enter valid last name</string>
+    <string name="phone_valid">Please, enter valid phone</string>
+    <string name="email_valid">Please, enter valid email</string>
+    <string name="password_valid">Please, enter valid password</string>
 </resources>
