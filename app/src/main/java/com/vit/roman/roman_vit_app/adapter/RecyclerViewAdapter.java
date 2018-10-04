@@ -16,18 +16,19 @@ import com.bumptech.glide.Glide;
 import com.vit.roman.roman_vit_app.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private String TAG = "Adapter";
 
-    private ArrayList<String> mImageNames;
+    private ArrayList<String> mTexts;
     private ArrayList<String> mImages;
     private Context mContext;
 
-    public RecyclerViewAdapter(Context context, ArrayList<String> imageNames, ArrayList<String> images) {
+    public RecyclerViewAdapter(Context context, ArrayList<String> texts, ArrayList<String> images) {
         Log.i(TAG, "Constructor");
-        mImageNames = imageNames;
+        mTexts = texts;
         mImages = images;
         mContext = context;
         Log.i(TAG, "ImageNames size: " + mImages.size());
@@ -51,12 +52,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 .asBitmap()
                 .load(mImages.get(position))
                 .into(viewHolder.mImageView);
-        viewHolder.mTextView.setText(mImageNames.get(position));
+        viewHolder.mTextView.setText(mTexts.get(position));
         viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG, "OnClick: "  + mImageNames.get(position));
-                Toast.makeText(mContext, mImageNames.get(position), Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "OnClick: "  + mTexts.get(position));
+                Toast.makeText(mContext, mTexts.get(position), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -64,6 +65,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public int getItemCount() {
         return mImages.size();
+    }
+
+    public void clear() {
+        mImages.clear();
+        mTexts.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<String> images, List<String> texts){
+        mImages.addAll(images);
+        mTexts.addAll(texts);
     }
 
 
