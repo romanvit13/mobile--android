@@ -1,5 +1,6 @@
 package com.vit.roman.roman_vit_app.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.vit.roman.roman_vit_app.R;
 
 import java.util.ArrayList;
@@ -45,13 +47,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return new ViewHolder(view);
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         Log.i(TAG, "onBindViewHolder");
+
+        RequestOptions glideOptions = new RequestOptions();
+        glideOptions.centerCrop();
+
         Glide.with(mContext)
                 .asBitmap()
                 .load(mImages.get(position))
+                .apply(glideOptions)
                 .into(viewHolder.mImageView);
+
         viewHolder.mTextView.setText(mTexts.get(position));
         viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
