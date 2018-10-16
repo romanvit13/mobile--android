@@ -1,4 +1,4 @@
-package com.vit.roman.roman_vit_app;
+package com.vit.roman.roman_vit_app.model;
 
 public class User {
     private int id;
@@ -11,6 +11,14 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
+    }
+
+    @Override
+    public String toString() {
+        return  "User id: " + id +
+                "\nFirst name: " + firstName +
+                "\nLast name: " + lastName +
+                "\nPhone: " + phone;
     }
 
     public int getId() {
