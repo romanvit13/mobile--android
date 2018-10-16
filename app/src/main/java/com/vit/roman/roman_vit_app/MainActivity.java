@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.vit.roman.roman_vit_app.model.User;
+
 
 public class MainActivity extends AppCompatActivity {
 
