@@ -1,6 +1,7 @@
 package com.vit.roman.roman_vit_app.ui;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,38 +28,58 @@ public class CatsActivity extends AppCompatActivity {
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImages = new ArrayList<>();
     private Call<List<Result>> call;
+    private SwipeRefreshLayout swipeContainer;
+    private RecyclerViewAdapter recyclerViewAdapter;
+    CatInterface catInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cats);
         initRetrofit();
+        initRefreshLayout();
+        initRecyclerView();
         getCats();
     }
+
+    private void initRefreshLayout() {
+        swipeContainer = findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initRetrofit();
+               getCats();
+            }
+        });
+    }
+
 
     private void initRecyclerView() {
         Log.i(TAG, "INIT RECYCLER");
         RecyclerView recyclerView = findViewById(R.id.parent_layout);
-        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, mNames, mImages);
+        recyclerViewAdapter = new RecyclerViewAdapter(this, mNames, mImages);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
+
 
     private void initRetrofit() {
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("https://api.thecatapi.com")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
-        CatInterface catInterface = retrofit.create(CatInterface.class);
-        call = catInterface.imagesOfCats();
+        catInterface = retrofit.create(CatInterface.class);
     }
 
     private void getCats() {
+        call = catInterface.imagesOfCats();
         call.enqueue(new Callback<List<Result>>() {
             @Override
             public void onResponse(Call<List<Result>> call, Response<List<Result>> response) {
                 Log.i("Cats", "GOOD!");
-
+                recyclerViewAdapter.clear();
+                mImages.clear();
+                mNames.clear();
                 List<Result> results = response.body();
                 Log.i("Cats", response.toString());
                 Log.i("kotik", response.body().toString());
@@ -69,7 +90,8 @@ public class CatsActivity extends AppCompatActivity {
                         Log.i(TAG, "Images size: " + mImages.size());
                         mNames.add(result.getId());
                     }
-                    initRecyclerView();
+                    recyclerViewAdapter.addAll(mImages, mNames);
+                    swipeContainer.setRefreshing(false);
                 }
             }
 
