@@ -1,6 +1,6 @@
 package com.vit.roman.roman_vit_app;
 
-import com.vit.roman.roman_vit_app.model.Result;
+import com.vit.roman.roman_vit_app.model.ResultCat;
 
 import java.util.List;
 
@@ -14,5 +14,5 @@ public interface CatInterface {
             "x-api-key: fa0e4933-565b-4e42-a44d-dc1d45cca980",
             "Content-Type: application/json"
     })
-    Call<List<Result>>imagesOfCats();
+    Call<List<ResultCat>> imagesOfCats();
 }

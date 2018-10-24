@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -19,17 +18,27 @@ import com.vit.roman.roman_vit_app.model.User;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String USER_PREF = "USER_PREF";
     private static final String USER_LIST = "USER_LIST";
 
-    private EditText mFirstNameEdit;
-    private EditText mLastNameEdit;
-    private EditText mEmailEdit;
-    private EditText mPhoneEdit;
-    private EditText mPasswordEdit;
-    private EditText mPasswordConfirmEdit;
+    @BindView(R.id.firstNameEditText)
+    EditText mFirstNameEdit;
+    @BindView(R.id.lastNameEditText)
+    EditText mLastNameEdit;
+    @BindView(R.id.emailEditText)
+    EditText mEmailEdit;
+    @BindView(R.id.phoneEditText)
+    EditText mPhoneEdit;
+    @BindView(R.id.passwordEditText)
+    EditText mPasswordEdit;
+    @BindView(R.id.passwordConfirmEditText)
+    EditText mPasswordConfirmEdit;
 
     private String mFirstNameText;
     private String mLastNameText;
@@ -38,56 +47,31 @@ public class MainActivity extends AppCompatActivity {
     private String mPasswordText;
     private String mPasswordConfirmText;
 
-    private Button mSubmitButton;
-    private Button mListButton;
-    private Button mShowCatsButton;
-
     private SharedPreferences mUserPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
-
-        initViews();
-
-        mSubmitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getText();
-                register();
-            }
-        });
-
-        mListButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, UserListActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        mShowCatsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, CatsActivity.class);
-                startActivity(intent);
-            }
-        });
-
+        ButterKnife.bind(this);
     }
 
-    private void initViews() {
-        mSubmitButton = findViewById(R.id.submit_button);
-        mListButton = findViewById(R.id.list_button);
-        mShowCatsButton = findViewById(R.id.cat_button);
-        mFirstNameEdit = findViewById(R.id.firstNameEditText);
-        mLastNameEdit = findViewById(R.id.lastNameEditText);
-        mEmailEdit = findViewById(R.id.emailEditText);
-        mPhoneEdit = findViewById(R.id.phoneEditText);
-        mPasswordEdit = findViewById(R.id.passwordEditText);
-        mPasswordConfirmEdit = findViewById(R.id.passwordConfirmEditText);
+    @OnClick({R.id.submit_button, R.id.list_button, R.id.cat_button})
+    public void click(View v) {
+        switch (v.getId()) {
+            case R.id.submit_button:
+                getText();
+                register();
+                break;
+            case R.id.list_button:
+                Intent intent1 = new Intent(MainActivity.this, UserListActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.cat_button:
+                Intent intent2 = new Intent(MainActivity.this, CatsActivity.class);
+                startActivity(intent2);
+                break;
+        }
     }
 
     private void getText() {
@@ -136,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void register() {
         if (!validate()) {
-            Toast.makeText(getApplicationContext(), "Registration has failed!",
+            Toast.makeText(getApplicationContext(), R.string.register_error,
                     Toast.LENGTH_SHORT).show();
         } else {
             onSignUpSuccess();

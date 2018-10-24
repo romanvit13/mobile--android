@@ -15,4 +15,7 @@
     <string name="phone_valid">Please, enter valid phone</string>
     <string name="email_valid">Please, enter valid email</string>
     <string name="password_valid">Please, enter valid password</string>
+    <string name="header">Header</string>
+    <string name="desc">Description.</string>
+    <string name="register_error">Registration has been failed.</string>
 </resources>
