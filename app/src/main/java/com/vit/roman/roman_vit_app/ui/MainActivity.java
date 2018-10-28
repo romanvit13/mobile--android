@@ -40,12 +40,14 @@ public class MainActivity extends AppCompatActivity {
 
     private Button mSubmitButton;
     private Button mListButton;
-    
+    private Button mShowCatsButton;
+
     private SharedPreferences mUserPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         initViews();
@@ -65,11 +67,21 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        mShowCatsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, CatsActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void initViews() {
         mSubmitButton = findViewById(R.id.submit_button);
         mListButton = findViewById(R.id.list_button);
+        mShowCatsButton = findViewById(R.id.cat_button);
         mFirstNameEdit = findViewById(R.id.firstNameEditText);
         mLastNameEdit = findViewById(R.id.lastNameEditText);
         mEmailEdit = findViewById(R.id.emailEditText);
