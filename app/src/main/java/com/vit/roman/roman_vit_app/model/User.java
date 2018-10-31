@@ -6,7 +6,7 @@ public class User {
     private String lastName;
     private String phone;
 
-    public User(int id, String firstName, String lastName, String phone){
+    public User(int id, String firstName, String lastName, String phone) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -15,7 +15,7 @@ public class User {
 
     @Override
     public String toString() {
-        return  "User id: " + id +
+        return "User id: " + id +
                 "\nFirst name: " + firstName +
                 "\nLast name: " + lastName +
                 "\nPhone: " + phone;

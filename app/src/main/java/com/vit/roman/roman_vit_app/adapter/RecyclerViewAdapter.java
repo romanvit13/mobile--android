@@ -2,6 +2,7 @@ package com.vit.roman.roman_vit_app.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.vit.roman.roman_vit_app.R;
+import com.vit.roman.roman_vit_app.model.Cat;
+import com.vit.roman.roman_vit_app.ui.ExpandedActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,21 +26,15 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private String TAG = "Adapter";
-
-    private ArrayList<String> mTexts;
-    private ArrayList<String> mImages;
+    private ArrayList<Cat> mCats;
     private Context mContext;
 
-    public RecyclerViewAdapter(Context context, ArrayList<String> texts, ArrayList<String> images) {
+    public RecyclerViewAdapter(Context context, ArrayList<Cat> cats) {
         Log.i(TAG, "Constructor");
-        mTexts = texts;
-        mImages = images;
+        mCats = cats;
         mContext = context;
-        Log.i(TAG, "ImageNames size: " + mImages.size());
     }
-
-
-
+    
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -57,39 +54,48 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         Glide.with(mContext)
                 .asBitmap()
-                .load(mImages.get(position))
+                .load(mCats.get(position).getImage())
                 .apply(glideOptions)
                 .into(viewHolder.mImageView);
 
-        viewHolder.mTextView.setText(mTexts.get(position));
+        viewHolder.mTextView.setText(mCats.get(position).getId());
         viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG, "OnClick: "  + mTexts.get(position));
-                Toast.makeText(mContext, mTexts.get(position), Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "OnClick: " + mCats.get(position).getId());
+                Toast.makeText(mContext, mCats.get(position).getId(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, ExpandedActivity.class);
+                intent.putExtra("cat_id", mCats.get(position).getId());
+                intent.putExtra("cat_image_url", mCats.get(position).getImage());
+                mContext.startActivity(intent);
             }
         });
+//        viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(mContext, ExpandedActivity.class);
+//                intent.putExtra("cat_id", mCats.get(position).getId());
+//                intent.putExtra("cat_image_url", mCats.get(position).getImage());
+//                mContext.startActivity(intent);
+//            }
+//        });
     }
 
     @Override
     public int getItemCount() {
-        return mImages.size();
+        return mCats.size();
     }
 
     public void clear() {
-        mImages.clear();
-        mTexts.clear();
+        mCats.clear();
         notifyDataSetChanged();
     }
 
-    public void addAll(List<String> images, List<String> texts){
-        mImages.addAll(images);
-        mTexts.addAll(texts);
+    public void addAll(List<Cat> cats) {
+        mCats.addAll(cats);
     }
 
-
     class ViewHolder extends RecyclerView.ViewHolder {
-
         ImageView mImageView;
         TextView mTextView;
         RelativeLayout parentLayout;

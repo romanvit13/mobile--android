@@ -7,10 +7,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.vit.roman.roman_vit_app.App;
 import com.vit.roman.roman_vit_app.CatInterface;
 import com.vit.roman.roman_vit_app.R;
 import com.vit.roman.roman_vit_app.adapter.RecyclerViewAdapter;
-import com.vit.roman.roman_vit_app.model.Result;
+import com.vit.roman.roman_vit_app.model.Breed;
+import com.vit.roman.roman_vit_app.model.Cat;
+import com.vit.roman.roman_vit_app.model.ResultCat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,19 +21,15 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CatsActivity extends AppCompatActivity {
 
-    private static final String TAG = "CatsActivity";
-
-    private ArrayList<String> mNames = new ArrayList<>();
-    private ArrayList<String> mImages = new ArrayList<>();
-    private Call<List<Result>> call;
+    CatInterface catInterface;
+    private ArrayList<Cat> mCats = new ArrayList<>();
+    private List<Breed> breedList = new ArrayList<>();
     private SwipeRefreshLayout swipeContainer;
     private RecyclerViewAdapter recyclerViewAdapter;
-    CatInterface catInterface;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +38,11 @@ public class CatsActivity extends AppCompatActivity {
         initRetrofit();
         initRefreshLayout();
         initRecyclerView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getCats();
     }
 
@@ -48,57 +52,46 @@ public class CatsActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 initRetrofit();
-               getCats();
+                getCats();
             }
         });
     }
 
 
     private void initRecyclerView() {
-        Log.i(TAG, "INIT RECYCLER");
         RecyclerView recyclerView = findViewById(R.id.parent_layout);
-        recyclerViewAdapter = new RecyclerViewAdapter(this, mNames, mImages);
+        recyclerViewAdapter = new RecyclerViewAdapter(this, mCats);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
 
     private void initRetrofit() {
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("https://api.thecatapi.com")
-                .addConverterFactory(GsonConverterFactory.create());
-        Retrofit retrofit = builder.build();
-        catInterface = retrofit.create(CatInterface.class);
+        catInterface = App.getApi();
     }
 
     private void getCats() {
-        call = catInterface.imagesOfCats();
-        call.enqueue(new Callback<List<Result>>() {
+        Call<List<ResultCat>> call = catInterface.imagesOfCats();
+        call.enqueue(new Callback<List<ResultCat>>() {
             @Override
-            public void onResponse(Call<List<Result>> call, Response<List<Result>> response) {
-                Log.i("Cats", "GOOD!");
+            public void onResponse(Call<List<ResultCat>> call, Response<List<ResultCat>> response) {
                 recyclerViewAdapter.clear();
-                mImages.clear();
-                mNames.clear();
-                List<Result> results = response.body();
-                Log.i("Cats", response.toString());
-                Log.i("kotik", response.body().toString());
-                if (results != null) {
-                    for (Result result : results) {
-                        Log.i(TAG , "kot: " + result.getId());
-                        mImages.add(result.getUrl());
-                        Log.i(TAG, "Images size: " + mImages.size());
-                        mNames.add(result.getId());
+                mCats.clear();
+                List<ResultCat> resultCats = response.body();
+                if (resultCats != null) {
+                    for (ResultCat resultCat : resultCats) {
+                        Cat cat = new Cat(resultCat.getId(), resultCat.getUrl());
+                        breedList = resultCat.getBreeds();
+                        mCats.add(cat);
                     }
-                    recyclerViewAdapter.addAll(mImages, mNames);
+                    recyclerViewAdapter.addAll(mCats);
                     swipeContainer.setRefreshing(false);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Result>> call, Throwable t) {
+            public void onFailure(Call<List<ResultCat>> call, Throwable t) {
                 Log.i("Cats", "Something went wrong.");
-                Log.i("Cats", t.toString());
             }
         });
     }

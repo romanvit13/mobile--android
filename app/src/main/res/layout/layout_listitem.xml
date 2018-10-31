@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/layout_margin"
             android:layout_toEndOf="@id/imageView"
-            android:text="Header"
+            android:text="@string/header"
             android:textAlignment="center"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -33,11 +33,11 @@
             android:id="@+id/imageDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Description."
-            android:textSize="20sp"
-            android:layout_toEndOf="@id/imageView"
             android:layout_below="@+id/imageHeader"
-           android:layout_margin="@dimen/layout_margin"
+            android:layout_margin="@dimen/layout_margin"
+            android:layout_toEndOf="@id/imageView"
+            android:text="@string/desc"
+            android:textSize="20sp"
 
             />
 
