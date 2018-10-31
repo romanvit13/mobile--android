@@ -19,6 +19,7 @@
         <activity android:name=".ui.UserListActivity"/>
         <activity android:name=".ui.CatsActivity"/>
         <activity android:name=".ui.ExpandedActivity" />
+        <activity android:name=".ui.FullscreenPhotoActivity" />
     </application>
 
 

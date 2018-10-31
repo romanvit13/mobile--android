@@ -1,8 +1,10 @@
 package com.vit.roman.roman_vit_app.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,10 +14,12 @@ import com.vit.roman.roman_vit_app.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ExpandedActivity extends AppCompatActivity {
 
     private static final String TAG = "ExpandedActivity";
+    private String catImageUrl = "";
 
     @BindView(R.id.image_view_expanded)
     ImageView mImageView;
@@ -31,10 +35,18 @@ public class ExpandedActivity extends AppCompatActivity {
 
     }
 
+    @OnClick(R.id.image_view_expanded)
+    public void click(View v) {
+        Intent intent = new Intent(ExpandedActivity.this, FullscreenPhotoActivity.class);
+        intent.putExtra("IMAGE_URL", catImageUrl);
+        startActivity(intent);
+    }
+
+
     private void getIncomingIntent() {
         if (getIntent().hasExtra("cat_id") && getIntent().hasExtra("cat_image_url")) {
             String catId = getIntent().getStringExtra("cat_id");
-            String catImageUrl = getIntent().getStringExtra("cat_image_url");
+            catImageUrl = getIntent().getStringExtra("cat_image_url");
             setContent(catId, catImageUrl);
         }
     }
