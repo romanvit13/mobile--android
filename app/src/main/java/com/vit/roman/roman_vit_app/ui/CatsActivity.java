@@ -11,6 +11,7 @@ import com.vit.roman.roman_vit_app.App;
 import com.vit.roman.roman_vit_app.CatInterface;
 import com.vit.roman.roman_vit_app.R;
 import com.vit.roman.roman_vit_app.adapter.RecyclerViewAdapter;
+import com.vit.roman.roman_vit_app.model.Breed;
 import com.vit.roman.roman_vit_app.model.Cat;
 import com.vit.roman.roman_vit_app.model.ResultCat;
 
@@ -25,8 +26,10 @@ public class CatsActivity extends AppCompatActivity {
 
     CatInterface catInterface;
     private ArrayList<Cat> mCats = new ArrayList<>();
+    private List<Breed> breedList = new ArrayList<>();
     private SwipeRefreshLayout swipeContainer;
     private RecyclerViewAdapter recyclerViewAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +81,7 @@ public class CatsActivity extends AppCompatActivity {
                 if (resultCats != null) {
                     for (ResultCat resultCat : resultCats) {
                         Cat cat = new Cat(resultCat.getId(), resultCat.getUrl());
+                        breedList = resultCat.getBreeds();
                         mCats.add(cat);
                     }
                     recyclerViewAdapter.addAll(mCats);

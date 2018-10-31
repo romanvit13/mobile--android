@@ -2,6 +2,7 @@ package com.vit.roman.roman_vit_app.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.vit.roman.roman_vit_app.R;
 import com.vit.roman.roman_vit_app.model.Cat;
+import com.vit.roman.roman_vit_app.ui.ExpandedActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,8 +64,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void onClick(View view) {
                 Log.i(TAG, "OnClick: " + mCats.get(position).getId());
                 Toast.makeText(mContext, mCats.get(position).getId(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, ExpandedActivity.class);
+                intent.putExtra("cat_id", mCats.get(position).getId());
+                intent.putExtra("cat_image_url", mCats.get(position).getImage());
+                mContext.startActivity(intent);
             }
         });
+//        viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(mContext, ExpandedActivity.class);
+//                intent.putExtra("cat_id", mCats.get(position).getId());
+//                intent.putExtra("cat_image_url", mCats.get(position).getImage());
+//                mContext.startActivity(intent);
+//            }
+//        });
     }
 
     @Override
