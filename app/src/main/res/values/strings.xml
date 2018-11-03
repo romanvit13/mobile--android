@@ -20,4 +20,5 @@
     <string name="register_error">Registration has been failed.</string>
     <string name="favourite_button_action_add">Add to the favourites</string>
     <string name="favourite_button_action_rm">Remove from the favourites</string>
+    <string name="saved">Saved successfully!</string>
 </resources>

@@ -1,10 +1,13 @@
 package com.vit.roman.roman_vit_app.ui;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -24,6 +27,7 @@ import com.vit.roman.roman_vit_app.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,15 +35,19 @@ import butterknife.OnClick;
 
 public class ExpandedActivity extends AppCompatActivity {
 
-    private static final String TAG = "ExpandedActivity";
     @BindView(R.id.image_view_expanded)
     ImageView mImageView;
     @BindView(R.id.text_view_expanded)
     TextView mTextView;
     @BindView(R.id.favourite_action_button)
-    Button mFavuriteActionButton;
+    Button mFavouriteActionButton;
     private String catImageUrl = "";
+    private String catId = "";
     private String[] externalStoragePermission = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private static final String FOLDER_NAME = "cat_images";
+    private static final String TAG = "ExpandedActivity";
+    private static final String FAVOURITES_PREF = "FAVOURITES_PREF";
+    private static final String CAT_ID = "CAT_ID";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,19 +64,35 @@ public class ExpandedActivity extends AppCompatActivity {
                 startFullScreenPhotoIntent();
                 break;
             case R.id.favourite_action_button:
-                Toast.makeText(ExpandedActivity.this, "Clicked", Toast.LENGTH_SHORT)
+                saveImageToExternalStorage();
+                saveIdToSharedPrefs(catId);
+                Toast.makeText(ExpandedActivity.this, R.string.saved, Toast.LENGTH_SHORT)
                         .show();
-                if (!isExternalStoragePermission())
-                    askForExternalStoragePermission();
-                else {
-                    if (isExternalStorageWritable()) {
-                        File path = getPublicAlbumStorageDir("cat_folder");
-
-                    }
-                }
                 break;
         }
 
+    }
+
+    private void saveIdToSharedPrefs(String id) {
+        SharedPreferences sharedPreferences = ExpandedActivity.this.getApplicationContext()
+                .getSharedPreferences(FAVOURITES_PREF, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(CAT_ID, id);
+        editor.apply();
+    }
+
+    private void saveImageToExternalStorage() {
+        if (!isExternalStoragePermission()) {
+            askForExternalStoragePermission();
+        } else {
+            if (isExternalStorageWritable()) {
+                saveImage(getBitmapFromImageView(mImageView), getAppDirectory(FOLDER_NAME));
+            }
+        }
+    }
+
+    private Bitmap getBitmapFromImageView(ImageView imageView) {
+        return ((BitmapDrawable)imageView.getDrawable()).getBitmap();
     }
 
     private void startFullScreenPhotoIntent() {
@@ -77,15 +101,15 @@ public class ExpandedActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
     private void getIncomingIntent() {
         if (getIntent().hasExtra("cat_id") && getIntent().hasExtra("cat_image_url")) {
-            String catId = getIntent().getStringExtra("cat_id");
+            catId = getIntent().getStringExtra("cat_id");
             catImageUrl = getIntent().getStringExtra("cat_image_url");
             setContent(catId, catImageUrl);
         }
     }
 
+    @SuppressLint("CheckResult")
     private void setContent(String catId, String imageUrl) {
         mTextView.setText(catId);
         RequestOptions glideOptions = new RequestOptions();
@@ -95,13 +119,13 @@ public class ExpandedActivity extends AppCompatActivity {
 
     private boolean isExternalStoragePermission() {
         return ContextCompat.checkSelfPermission(ExpandedActivity.this,
-                Manifest.permission.READ_CONTACTS)
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED;
 
     }
 
     private void askForExternalStoragePermission() {
-        ActivityCompat.requestPermissions(ExpandedActivity.this, externalStoragePermission, 0);
+        ActivityCompat.requestPermissions(ExpandedActivity.this, externalStoragePermission, 1);
     }
 
     private boolean isExternalStorageWritable() {
@@ -112,26 +136,27 @@ public class ExpandedActivity extends AppCompatActivity {
         return false;
     }
 
-    private File getPublicAlbumStorageDir(String albumName) {
-        // Get the directory for the user's public pictures directory.
-        File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), albumName);
-        if (!file.mkdirs()) {
-            Log.e(TAG, "Directory not created");
-        }
-        return file;
-    }
-
-    private void saveImage(Context context, Bitmap bitmap, String imageName) {
-        FileOutputStream foStream;
+    private void saveImage(Bitmap bitmap, File directory) {
+        String fileName = "image-" + catId + ".jpg";
+        File photo = new File(directory, fileName);
+        OutputStream foStream;
         try {
-            foStream = context.openFileOutput(imageName, Context.MODE_PRIVATE);
+            foStream = new FileOutputStream(photo);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, foStream);
+            foStream.flush();
             foStream.close();
         } catch (Exception e) {
             Log.d("saveImage", "Exception 2, Something went wrong!");
             e.printStackTrace();
         }
+    }
+
+    private File getAppDirectory(String folderName) {
+        String externalStoragePath = Environment.getExternalStorageDirectory().toString();
+        File appDirectory = new File(externalStoragePath +  "/" + folderName);
+        if (!appDirectory.exists())
+            appDirectory.mkdirs();
+        return appDirectory;
     }
 }
 
