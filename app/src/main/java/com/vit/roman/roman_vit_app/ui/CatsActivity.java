@@ -1,11 +1,14 @@
 package com.vit.roman.roman_vit_app.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.vit.roman.roman_vit_app.App;
 import com.vit.roman.roman_vit_app.CatInterface;
@@ -18,6 +21,9 @@ import com.vit.roman.roman_vit_app.model.ResultCat;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,7 +35,8 @@ public class CatsActivity extends AppCompatActivity {
     private List<Breed> breedList = new ArrayList<>();
     private SwipeRefreshLayout swipeContainer;
     private RecyclerViewAdapter recyclerViewAdapter;
-
+    @BindView(R.id.go_to_favourite_button)
+    ImageButton favouritesButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +45,13 @@ public class CatsActivity extends AppCompatActivity {
         initRetrofit();
         initRefreshLayout();
         initRecyclerView();
+        ButterKnife.bind(this);
+    }
+
+    @OnClick({R.id.go_to_favourite_button})
+    public void click(View v) {
+        Intent intent = new Intent(CatsActivity.this, FavouritesListActivity.class);
+        startActivity(intent);
     }
 
     @Override

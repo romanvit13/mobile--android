@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,11 +24,15 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.vit.roman.roman_vit_app.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,12 +53,16 @@ public class ExpandedActivity extends AppCompatActivity {
     private static final String TAG = "ExpandedActivity";
     private static final String FAVOURITES_PREF = "FAVOURITES_PREF";
     private static final String CAT_ID = "CAT_ID";
+    private static final String ID_LIST = "ID_LIST";
+    private boolean favourite = false;
+    private ArrayList<String> catIds;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_expanded);
         ButterKnife.bind(this);
+        initArrayList();
         getIncomingIntent();
     }
 
@@ -64,13 +73,62 @@ public class ExpandedActivity extends AppCompatActivity {
                 startFullScreenPhotoIntent();
                 break;
             case R.id.favourite_action_button:
-                saveImageToExternalStorage();
-                saveIdToSharedPrefs(catId);
-                Toast.makeText(ExpandedActivity.this, R.string.saved, Toast.LENGTH_SHORT)
-                        .show();
+
+                if (favourite == false) {
+                    saveData();
+                    mFavouriteActionButton.setText(R.string.favourite_button_action_rm);
+                    favourite = true;
+                } else {
+                    loadData();
+                    mFavouriteActionButton.setText(R.string.favourite_button_action_add);
+                    favourite = false;
+                }
                 break;
         }
+    }
 
+    private void initArrayList() {
+        catIds = getArrayList();
+    }
+
+    private ArrayList<String> getArrayList() {
+        ArrayList<String> catIds = new ArrayList<>();
+        SharedPreferences sharedPreferences = ExpandedActivity.this.getApplicationContext()
+                .getSharedPreferences(FAVOURITES_PREF, Context.MODE_PRIVATE);
+        if (sharedPreferences.contains(ID_LIST)) {
+            Gson gson = new Gson();
+            String json = sharedPreferences.getString(ID_LIST, null);
+            Type type = new TypeToken<ArrayList<String>>() {
+            }.getType();
+            catIds = gson.fromJson(json, type);
+        }
+        return catIds;
+    }
+
+
+    private void saveListToPreffs(ArrayList<String> arrayList) {
+        SharedPreferences sharedPreferences = ExpandedActivity.this.getApplicationContext()
+                .getSharedPreferences(FAVOURITES_PREF, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(arrayList);
+        editor.putString(ID_LIST, json);
+        editor.apply();
+    }
+
+    private void saveData(){
+        saveImageToExternalStorage();
+        catIds.add(catId);
+        saveListToPreffs(catIds);
+        Toast.makeText(ExpandedActivity.this, R.string.saved, Toast.LENGTH_SHORT)
+                .show();
+    }
+
+    private void loadData() {
+        loadIdFromSharedPrefs();
+        Bitmap bitmap = loadImageFromExternalStorage();
+        Toast.makeText(ExpandedActivity.this, R.string.loaded + bitmap.toString(), Toast.LENGTH_SHORT)
+                .show();
     }
 
     private void saveIdToSharedPrefs(String id) {
@@ -81,9 +139,27 @@ public class ExpandedActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    private String loadIdFromSharedPrefs() {
+        String id = "";
+        SharedPreferences sharedPreferences = ExpandedActivity.this.getApplicationContext()
+                .getSharedPreferences(FAVOURITES_PREF, Context.MODE_PRIVATE);
+        if (sharedPreferences.contains(CAT_ID)) {
+            id = sharedPreferences.getString(CAT_ID, null);
+        }
+        return id;
+    }
+
+    private Bitmap loadImageFromExternalStorage() {
+        String photoPath = Environment.getExternalStorageDirectory()
+                + "/" + FOLDER_NAME + "/" + "image-"+catId+".jpg";
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        return BitmapFactory.decodeFile(photoPath, options);
+    }
+
     private void saveImageToExternalStorage() {
-        if (!isExternalStoragePermission()) {
-            askForExternalStoragePermission();
+        if (!isExternalStorageWritePermission()) {
+            askForExternalStorageWritePermission();
         } else {
             if (isExternalStorageWritable()) {
                 saveImage(getBitmapFromImageView(mImageView), getAppDirectory(FOLDER_NAME));
@@ -117,14 +193,25 @@ public class ExpandedActivity extends AppCompatActivity {
         Glide.with(this).load(imageUrl).apply(glideOptions).into(mImageView);
     }
 
-    private boolean isExternalStoragePermission() {
+    private boolean isExternalStorageWritePermission() {
         return ContextCompat.checkSelfPermission(ExpandedActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED;
 
     }
 
-    private void askForExternalStoragePermission() {
+    private boolean isExternalStorageReadPermission() {
+        return ContextCompat.checkSelfPermission(ExpandedActivity.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED;
+
+    }
+
+    private void askForExternalStorageReadPermission() {
+        ActivityCompat.requestPermissions(ExpandedActivity.this, externalStoragePermission, 1);
+    }
+
+    private void askForExternalStorageWritePermission() {
         ActivityCompat.requestPermissions(ExpandedActivity.this, externalStoragePermission, 1);
     }
 

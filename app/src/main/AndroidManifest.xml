@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vit.roman.roman_vit_app">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".App"
         android:icon="@mipmap/ic_launcher"
@@ -17,11 +20,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.UserListActivity"/>
-        <activity android:name=".ui.CatsActivity"/>
+        <activity android:name=".ui.UserListActivity" />
+        <activity android:name=".ui.CatsActivity" />
         <activity android:name=".ui.ExpandedActivity" />
         <activity android:name=".ui.FullscreenPhotoActivity" />
+        <activity android:name=".ui.FavouritesListActivity"></activity>
     </application>
-
 
 </manifest>
