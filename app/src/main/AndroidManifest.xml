@@ -24,7 +24,7 @@
         <activity android:name=".ui.CatsActivity" />
         <activity android:name=".ui.ExpandedActivity" />
         <activity android:name=".ui.FullscreenPhotoActivity" />
-        <activity android:name=".ui.FavouritesListActivity"></activity>
+        <activity android:name=".ui.FavouritesListActivity" />
     </application>
 
 </manifest>

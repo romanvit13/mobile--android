@@ -18,11 +18,9 @@ public class FullscreenPhotoActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_fullscreen);
-        photoView = findViewById(R.id.fullscreen_content);
-        //ImageView imageView = findViewById(R.id.ok);
+        photoView = findViewById(R.id.photo_view);
         String imageUrl = getIntent().getStringExtra(IMAGE_URL);
         RequestOptions glideOptions = new RequestOptions();
-        glideOptions.centerCrop();
-        Glide.with(this).load(imageUrl).apply(glideOptions).into(photoView);
+        Glide.with(this).load(imageUrl).apply(glideOptions.centerCrop()).into(photoView);
     }
 }

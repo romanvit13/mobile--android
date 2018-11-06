@@ -14,7 +14,6 @@ import com.vit.roman.roman_vit_app.App;
 import com.vit.roman.roman_vit_app.CatInterface;
 import com.vit.roman.roman_vit_app.R;
 import com.vit.roman.roman_vit_app.adapter.RecyclerViewAdapter;
-import com.vit.roman.roman_vit_app.model.Breed;
 import com.vit.roman.roman_vit_app.model.Cat;
 import com.vit.roman.roman_vit_app.model.ResultCat;
 
@@ -32,23 +31,22 @@ public class CatsActivity extends AppCompatActivity {
 
     CatInterface catInterface;
     private ArrayList<Cat> mCats = new ArrayList<>();
-    private List<Breed> breedList = new ArrayList<>();
     private SwipeRefreshLayout swipeContainer;
     private RecyclerViewAdapter recyclerViewAdapter;
-    @BindView(R.id.go_to_favourite_button)
+    @BindView(R.id.button_go_to_favourite)
     ImageButton favouritesButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cats);
+        setContentView(R.layout.activity_items_list);
         initRetrofit();
         initRefreshLayout();
         initRecyclerView();
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.go_to_favourite_button})
+    @OnClick({R.id.button_go_to_favourite})
     public void click(View v) {
         Intent intent = new Intent(CatsActivity.this, FavouritesListActivity.class);
         startActivity(intent);
@@ -61,7 +59,7 @@ public class CatsActivity extends AppCompatActivity {
     }
 
     private void initRefreshLayout() {
-        swipeContainer = findViewById(R.id.swipeContainer);
+        swipeContainer = findViewById(R.id.swipe_container);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -73,7 +71,7 @@ public class CatsActivity extends AppCompatActivity {
 
 
     private void initRecyclerView() {
-        RecyclerView recyclerView = findViewById(R.id.parent_layout);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view_cats);
         recyclerViewAdapter = new RecyclerViewAdapter(this, mCats);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -95,7 +93,6 @@ public class CatsActivity extends AppCompatActivity {
                 if (resultCats != null) {
                     for (ResultCat resultCat : resultCats) {
                         Cat cat = new Cat(resultCat.getId(), resultCat.getUrl());
-                        breedList = resultCat.getBreeds();
                         mCats.add(cat);
                     }
                     recyclerViewAdapter.addAll(mCats);

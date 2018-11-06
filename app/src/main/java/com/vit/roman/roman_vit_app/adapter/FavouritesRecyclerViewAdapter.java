@@ -1,6 +1,5 @@
 package com.vit.roman.roman_vit_app.adapter;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
@@ -22,11 +21,9 @@ public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<Favourit
 
     private static final String FOLDER_NAME = "cat_images";
     private ArrayList<String> mCatIds;
-    private Context mContext;
 
-    public FavouritesRecyclerViewAdapter(Context context, ArrayList<String> catIds){
+    public FavouritesRecyclerViewAdapter(ArrayList<String> catIds){
         this.mCatIds = catIds;
-        mContext = context;
     }
 
     @NonNull
@@ -55,13 +52,13 @@ public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<Favourit
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mImageView;
         TextView mTextView;
-        RelativeLayout parentLayout;
+        RelativeLayout mRecyclerView;
 
         ViewHolder(View itemView) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.imageView);
             mTextView = itemView.findViewById(R.id.imageHeader);
-            parentLayout = itemView.findViewById(R.id.parent_layout);
+            mRecyclerView = itemView.findViewById(R.id.recycler_view_cats);
         }
     }
 

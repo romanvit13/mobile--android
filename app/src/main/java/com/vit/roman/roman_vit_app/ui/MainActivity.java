@@ -27,17 +27,17 @@ public class MainActivity extends AppCompatActivity {
     private static final String USER_PREF = "USER_PREF";
     private static final String USER_LIST = "USER_LIST";
 
-    @BindView(R.id.firstNameEditText)
+    @BindView(R.id.edit_text_first_name)
     EditText mFirstNameEdit;
-    @BindView(R.id.lastNameEditText)
+    @BindView(R.id.edit_text_last_name)
     EditText mLastNameEdit;
-    @BindView(R.id.emailEditText)
+    @BindView(R.id.edit_text_email)
     EditText mEmailEdit;
-    @BindView(R.id.phoneEditText)
+    @BindView(R.id.edit_text_phone)
     EditText mPhoneEdit;
-    @BindView(R.id.passwordEditText)
+    @BindView(R.id.edit_text_password)
     EditText mPasswordEdit;
-    @BindView(R.id.passwordConfirmEditText)
+    @BindView(R.id.edit_text_password_confirm)
     EditText mPasswordConfirmEdit;
 
     private String mFirstNameText;
@@ -56,18 +56,18 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.submit_button, R.id.list_button, R.id.cat_button})
+    @OnClick({R.id.button_submit, R.id.button_list, R.id.button_cat})
     public void click(View v) {
         switch (v.getId()) {
-            case R.id.submit_button:
+            case R.id.button_submit:
                 getText();
                 register();
                 break;
-            case R.id.list_button:
+            case R.id.button_list:
                 Intent intent1 = new Intent(MainActivity.this, UserListActivity.class);
                 startActivity(intent1);
                 break;
-            case R.id.cat_button:
+            case R.id.button_cat:
                 Intent intent2 = new Intent(MainActivity.this, CatsActivity.class);
                 startActivity(intent2);
                 break;

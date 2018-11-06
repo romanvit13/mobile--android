@@ -9,7 +9,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class App extends Application {
 
     private static CatInterface catInterface;
-
     public static CatInterface getApi() {
         return catInterface;
     }

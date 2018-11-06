@@ -1,6 +1,7 @@
 package com.vit.roman.roman_vit_app.model;
 
 public class User {
+
     private int id;
     private String firstName;
     private String lastName;

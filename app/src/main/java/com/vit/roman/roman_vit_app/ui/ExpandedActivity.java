@@ -131,14 +131,6 @@ public class ExpandedActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void saveIdToSharedPrefs(String id) {
-        SharedPreferences sharedPreferences = ExpandedActivity.this.getApplicationContext()
-                .getSharedPreferences(FAVOURITES_PREF, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(CAT_ID, id);
-        editor.apply();
-    }
-
     private String loadIdFromSharedPrefs() {
         String id = "";
         SharedPreferences sharedPreferences = ExpandedActivity.this.getApplicationContext()
@@ -205,10 +197,6 @@ public class ExpandedActivity extends AppCompatActivity {
                 Manifest.permission.READ_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED;
 
-    }
-
-    private void askForExternalStorageReadPermission() {
-        ActivityCompat.requestPermissions(ExpandedActivity.this, externalStoragePermission, 1);
     }
 
     private void askForExternalStorageWritePermission() {

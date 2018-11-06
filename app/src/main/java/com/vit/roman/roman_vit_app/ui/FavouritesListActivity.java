@@ -18,7 +18,6 @@ import java.util.ArrayList;
 public class FavouritesListActivity extends AppCompatActivity {
 
     private ArrayList<String> mCatIds = new ArrayList<>();
-    private FavouritesRecyclerViewAdapter recyclerViewAdapter;
     private static final String FAVOURITES_PREF = "FAVOURITES_PREF";
     private static final String ID_LIST = "ID_LIST";
 
@@ -41,13 +40,11 @@ public class FavouritesListActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        RecyclerView recyclerView = findViewById(R.id.favourites_recycler);
-        recyclerViewAdapter = new FavouritesRecyclerViewAdapter(this, mCatIds);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view_favourites);
+        FavouritesRecyclerViewAdapter recyclerViewAdapter = new FavouritesRecyclerViewAdapter(mCatIds);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,6 +1,5 @@
 package com.vit.roman.roman_vit_app.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -25,7 +24,7 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private String TAG = "Adapter";
+    private static final String TAG = "RecyclerViewAdapter";
     private ArrayList<Cat> mCats;
     private Context mContext;
 
@@ -44,18 +43,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return new ViewHolder(view);
     }
 
-    @SuppressLint("CheckResult")
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         Log.i(TAG, "onBindViewHolder");
 
         RequestOptions glideOptions = new RequestOptions();
-        glideOptions.centerCrop();
-
         Glide.with(mContext)
                 .asBitmap()
                 .load(mCats.get(position).getImage())
-                .apply(glideOptions)
+                .apply(glideOptions.centerCrop())
                 .into(viewHolder.mImageView);
 
         viewHolder.mTextView.setText(mCats.get(position).getId());
@@ -70,15 +67,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 mContext.startActivity(intent);
             }
         });
-//        viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(mContext, ExpandedActivity.class);
-//                intent.putExtra("cat_id", mCats.get(position).getId());
-//                intent.putExtra("cat_image_url", mCats.get(position).getImage());
-//                mContext.startActivity(intent);
-//            }
-//        });
     }
 
     @Override
@@ -98,13 +86,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mImageView;
         TextView mTextView;
-        RelativeLayout parentLayout;
+        RelativeLayout mRecyclerView;
 
         ViewHolder(View itemView) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.imageView);
             mTextView = itemView.findViewById(R.id.imageHeader);
-            parentLayout = itemView.findViewById(R.id.parent_layout);
+            mRecyclerView = itemView.findViewById(R.id.recycler_view_cats);
         }
     }
 }
