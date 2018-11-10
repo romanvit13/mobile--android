@@ -49,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences mUserPref;
 
+    public static Intent getStartIntent(Context context) {
+        return new Intent(context, MainActivity.class);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,19 +61,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick({R.id.button_submit, R.id.button_list, R.id.button_cat})
-    public void click(View v) {
+    public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_submit:
                 getText();
                 register();
                 break;
             case R.id.button_list:
-                Intent intent1 = new Intent(MainActivity.this, UserListActivity.class);
-                startActivity(intent1);
+                startActivity(UserListActivity.getStartIntent(MainActivity.this));
                 break;
             case R.id.button_cat:
-                Intent intent2 = new Intent(MainActivity.this, CatsActivity.class);
-                startActivity(intent2);
+                startActivity(CatsActivity.getStartIntent(MainActivity.this));
                 break;
         }
     }

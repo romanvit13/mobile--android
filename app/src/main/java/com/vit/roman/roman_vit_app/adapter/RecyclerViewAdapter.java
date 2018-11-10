@@ -1,7 +1,6 @@
 package com.vit.roman.roman_vit_app.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -61,10 +60,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void onClick(View view) {
                 Log.i(TAG, "OnClick: " + mCats.get(position).getId());
                 Toast.makeText(mContext, mCats.get(position).getId(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(mContext, ExpandedActivity.class);
-                intent.putExtra("cat_id", mCats.get(position).getId());
-                intent.putExtra("cat_image_url", mCats.get(position).getImage());
-                mContext.startActivity(intent);
+                mContext.startActivity(ExpandedActivity.getStartIntent(mContext,
+                        mCats.get(position).getId(), mCats.get(position).getImage()));
             }
         });
     }

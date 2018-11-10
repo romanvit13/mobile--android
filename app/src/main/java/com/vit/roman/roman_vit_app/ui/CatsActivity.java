@@ -1,5 +1,6 @@
 package com.vit.roman.roman_vit_app.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -29,12 +30,16 @@ import retrofit2.Response;
 
 public class CatsActivity extends AppCompatActivity {
 
-    CatInterface catInterface;
+    CatInterface mCatInterface;
     private ArrayList<Cat> mCats = new ArrayList<>();
     private SwipeRefreshLayout swipeContainer;
-    private RecyclerViewAdapter recyclerViewAdapter;
+    private RecyclerViewAdapter mRecyclerViewAdapter;
     @BindView(R.id.button_go_to_favourite)
-    ImageButton favouritesButton;
+    ImageButton mFavouritesButton;
+
+    public static Intent getStartIntent(Context context) {
+        return new Intent(context, CatsActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +52,8 @@ public class CatsActivity extends AppCompatActivity {
     }
 
     @OnClick({R.id.button_go_to_favourite})
-    public void click(View v) {
-        Intent intent = new Intent(CatsActivity.this, FavouritesListActivity.class);
-        startActivity(intent);
+    public void onClick(View v) {
+        startActivity(FavouritesListActivity.getStartIntent(CatsActivity.this));
     }
 
     @Override
@@ -69,25 +73,24 @@ public class CatsActivity extends AppCompatActivity {
         });
     }
 
-
     private void initRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.recycler_view_cats);
-        recyclerViewAdapter = new RecyclerViewAdapter(this, mCats);
-        recyclerView.setAdapter(recyclerViewAdapter);
+        mRecyclerViewAdapter = new RecyclerViewAdapter(this, mCats);
+        recyclerView.setAdapter(mRecyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
 
     private void initRetrofit() {
-        catInterface = App.getApi();
+        mCatInterface = App.getApi();
     }
 
     private void getCats() {
-        Call<List<ResultCat>> call = catInterface.imagesOfCats();
+        Call<List<ResultCat>> call = mCatInterface.imagesOfCats();
         call.enqueue(new Callback<List<ResultCat>>() {
             @Override
             public void onResponse(Call<List<ResultCat>> call, Response<List<ResultCat>> response) {
-                recyclerViewAdapter.clear();
+                mRecyclerViewAdapter.clear();
                 mCats.clear();
                 List<ResultCat> resultCats = response.body();
                 if (resultCats != null) {
@@ -95,7 +98,7 @@ public class CatsActivity extends AppCompatActivity {
                         Cat cat = new Cat(resultCat.getId(), resultCat.getUrl());
                         mCats.add(cat);
                     }
-                    recyclerViewAdapter.addAll(mCats);
+                    mRecyclerViewAdapter.addAll(mCats);
                     swipeContainer.setRefreshing(false);
                 }
             }

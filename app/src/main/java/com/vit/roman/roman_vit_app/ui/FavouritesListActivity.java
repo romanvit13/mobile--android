@@ -1,6 +1,7 @@
 package com.vit.roman.roman_vit_app.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,9 +18,13 @@ import java.util.ArrayList;
 
 public class FavouritesListActivity extends AppCompatActivity {
 
-    private ArrayList<String> mCatIds = new ArrayList<>();
     private static final String FAVOURITES_PREF = "FAVOURITES_PREF";
     private static final String ID_LIST = "ID_LIST";
+    private ArrayList<String> mCatIds = new ArrayList<>();
+
+    public static Intent getStartIntent(Context context) {
+        return new Intent(context, FavouritesListActivity.class);
+    }
 
     private ArrayList<String> getArrayList() {
         ArrayList<String> catIds = new ArrayList<>();

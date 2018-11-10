@@ -45,17 +45,27 @@ public class ExpandedActivity extends AppCompatActivity {
     @BindView(R.id.text_view_expanded)
     TextView mTextView;
     @BindView(R.id.favourite_action_button)
-    Button mFavouriteActionButton;
-    private String catImageUrl = "";
-    private String catId = "";
-    private String[] externalStoragePermission = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    private static final String FOLDER_NAME = "cat_images";
+    Button mButtonFavourites;
+
+    private String mCatImageUrl = "";
+    private String mCatId = "";
+
     private static final String TAG = "ExpandedActivity";
+    private static final String FOLDER_NAME = "cat_images";
     private static final String FAVOURITES_PREF = "FAVOURITES_PREF";
     private static final String CAT_ID = "CAT_ID";
     private static final String ID_LIST = "ID_LIST";
-    private boolean favourite = false;
-    private ArrayList<String> catIds;
+    private static final String[] EXTERNAL_STORAGE_PERMISSION = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+    private boolean mFavourite = false;
+    private ArrayList<String> mCatIds;
+
+    public static Intent getStartIntent(Context context, String catId, String catImageUrl) {
+        Intent intent = new Intent(context, ExpandedActivity.class);
+        intent.putExtra("cat_id", catId);
+        intent.putExtra("cat_image_url", catImageUrl);
+        return intent;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,21 +84,21 @@ public class ExpandedActivity extends AppCompatActivity {
                 break;
             case R.id.favourite_action_button:
 
-                if (favourite == false) {
+                if (!mFavourite) {
                     saveData();
-                    mFavouriteActionButton.setText(R.string.favourite_button_action_rm);
-                    favourite = true;
+                    mButtonFavourites.setText(R.string.favourite_button_action_rm);
+                    mFavourite = true;
                 } else {
                     loadData();
-                    mFavouriteActionButton.setText(R.string.favourite_button_action_add);
-                    favourite = false;
+                    mButtonFavourites.setText(R.string.favourite_button_action_add);
+                    mFavourite = false;
                 }
                 break;
         }
     }
 
     private void initArrayList() {
-        catIds = getArrayList();
+        mCatIds = getArrayList();
     }
 
     private ArrayList<String> getArrayList() {
@@ -106,7 +116,7 @@ public class ExpandedActivity extends AppCompatActivity {
     }
 
 
-    private void saveListToPreffs(ArrayList<String> arrayList) {
+    private void saveListToSharedPrefs(ArrayList<String> arrayList) {
         SharedPreferences sharedPreferences = ExpandedActivity.this.getApplicationContext()
                 .getSharedPreferences(FAVOURITES_PREF, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -118,8 +128,8 @@ public class ExpandedActivity extends AppCompatActivity {
 
     private void saveData(){
         saveImageToExternalStorage();
-        catIds.add(catId);
-        saveListToPreffs(catIds);
+        mCatIds.add(mCatId);
+        saveListToSharedPrefs(mCatIds);
         Toast.makeText(ExpandedActivity.this, R.string.saved, Toast.LENGTH_SHORT)
                 .show();
     }
@@ -143,7 +153,7 @@ public class ExpandedActivity extends AppCompatActivity {
 
     private Bitmap loadImageFromExternalStorage() {
         String photoPath = Environment.getExternalStorageDirectory()
-                + "/" + FOLDER_NAME + "/" + "image-"+catId+".jpg";
+                + "/" + FOLDER_NAME + "/" + "image-"+ mCatId +".jpg";
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         return BitmapFactory.decodeFile(photoPath, options);
@@ -164,16 +174,15 @@ public class ExpandedActivity extends AppCompatActivity {
     }
 
     private void startFullScreenPhotoIntent() {
-        Intent intent = new Intent(ExpandedActivity.this, FullscreenPhotoActivity.class);
-        intent.putExtra("IMAGE_URL", catImageUrl);
-        startActivity(intent);
+        startActivity(FullscreenPhotoActivity.getStartIntent(
+                ExpandedActivity.this, mCatImageUrl));
     }
 
     private void getIncomingIntent() {
         if (getIntent().hasExtra("cat_id") && getIntent().hasExtra("cat_image_url")) {
-            catId = getIntent().getStringExtra("cat_id");
-            catImageUrl = getIntent().getStringExtra("cat_image_url");
-            setContent(catId, catImageUrl);
+            mCatId = getIntent().getStringExtra("cat_id");
+            mCatImageUrl = getIntent().getStringExtra("cat_image_url");
+            setContent(mCatId, mCatImageUrl);
         }
     }
 
@@ -200,7 +209,7 @@ public class ExpandedActivity extends AppCompatActivity {
     }
 
     private void askForExternalStorageWritePermission() {
-        ActivityCompat.requestPermissions(ExpandedActivity.this, externalStoragePermission, 1);
+        ActivityCompat.requestPermissions(ExpandedActivity.this, EXTERNAL_STORAGE_PERMISSION, 1);
     }
 
     private boolean isExternalStorageWritable() {
@@ -212,7 +221,7 @@ public class ExpandedActivity extends AppCompatActivity {
     }
 
     private void saveImage(Bitmap bitmap, File directory) {
-        String fileName = "image-" + catId + ".jpg";
+        String fileName = "image-" + mCatId + ".jpg";
         File photo = new File(directory, fileName);
         OutputStream foStream;
         try {
