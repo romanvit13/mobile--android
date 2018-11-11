@@ -1,6 +1,6 @@
 package com.vit.roman.roman_vit_app;
 
-import com.vit.roman.roman_vit_app.model.ResultCat;
+import com.vit.roman.roman_vit_app.entity.ResultCat;
 
 import java.util.List;
 

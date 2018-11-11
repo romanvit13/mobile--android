@@ -1,14 +1,14 @@
-package com.vit.roman.roman_vit_app.ui;
+package com.vit.roman.roman_vit_app.fragment;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.vit.roman.roman_vit_app.App;
@@ -17,6 +17,7 @@ import com.vit.roman.roman_vit_app.R;
 import com.vit.roman.roman_vit_app.adapter.RecyclerViewAdapter;
 import com.vit.roman.roman_vit_app.entity.Cat;
 import com.vit.roman.roman_vit_app.entity.ResultCat;
+import com.vit.roman.roman_vit_app.ui.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,42 +29,38 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CatsActivity extends AppCompatActivity {
+public class CatsFragment extends Fragment {
 
     CatInterface mCatInterface;
-    private ArrayList<Cat> mCats = new ArrayList<>();
-    private SwipeRefreshLayout swipeContainer;
-    private RecyclerViewAdapter mRecyclerViewAdapter;
     @BindView(R.id.button_go_to_favourite)
     ImageButton mFavouritesButton;
-
-    public static Intent getStartIntent(Context context) {
-        return new Intent(context, CatsActivity.class);
-    }
+    @BindView(R.id.swipe_container)
+    SwipeRefreshLayout swipeContainer;
+    @BindView(R.id.recycler_view_cats)
+    RecyclerView recyclerView;
+    private ArrayList<Cat> mCats = new ArrayList<>();
+    private RecyclerViewAdapter mRecyclerViewAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_items_list);
+        View view = inflater.inflate(R.layout.activity_items_list, container, false);
+        ButterKnife.bind(this, view);
         initRetrofit();
+        getCats();
         initRefreshLayout();
         initRecyclerView();
-        ButterKnife.bind(this);
+        return view;
     }
 
     @OnClick({R.id.button_go_to_favourite})
     public void onClick(View v) {
-        startActivity(FavouritesListActivity.getStartIntent(CatsActivity.this));
+        FavouritesListFragment favouritesListFragment = new FavouritesListFragment();
+        ((MainActivity) v.getContext()).setFragment(favouritesListFragment);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getCats();
-    }
 
     private void initRefreshLayout() {
-        swipeContainer = findViewById(R.id.swipe_container);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -74,10 +71,9 @@ public class CatsActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        RecyclerView recyclerView = findViewById(R.id.recycler_view_cats);
-        mRecyclerViewAdapter = new RecyclerViewAdapter(this, mCats);
+        mRecyclerViewAdapter = new RecyclerViewAdapter(getActivity(), mCats);
         recyclerView.setAdapter(mRecyclerViewAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
 
@@ -109,4 +105,5 @@ public class CatsActivity extends AppCompatActivity {
             }
         });
     }
+
 }

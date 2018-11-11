@@ -1,4 +1,4 @@
-package com.vit.roman.roman_vit_app.model;
+package com.vit.roman.roman_vit_app.entity;
 
 public class Cat {
     private String mId;

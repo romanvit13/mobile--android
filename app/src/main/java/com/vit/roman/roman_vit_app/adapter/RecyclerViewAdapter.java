@@ -1,6 +1,7 @@
 package com.vit.roman.roman_vit_app.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,8 +16,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.vit.roman.roman_vit_app.R;
-import com.vit.roman.roman_vit_app.model.Cat;
-import com.vit.roman.roman_vit_app.ui.ExpandedActivity;
+import com.vit.roman.roman_vit_app.entity.Cat;
+import com.vit.roman.roman_vit_app.fragment.ExpandedFragment;
+import com.vit.roman.roman_vit_app.ui.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,10 +62,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void onClick(View view) {
                 Log.i(TAG, "OnClick: " + mCats.get(position).getId());
                 Toast.makeText(mContext, mCats.get(position).getId(), Toast.LENGTH_SHORT).show();
-                mContext.startActivity(ExpandedActivity.getStartIntent(mContext,
-                        mCats.get(position).getId(), mCats.get(position).getImage()));
+                startExpandedFragment(view, mCats.get(position).getId(), mCats.get(position).getImage());
             }
         });
+    }
+
+    private void startExpandedFragment(View v, String catId, String catImageUrl) {
+        ExpandedFragment fragment = new ExpandedFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("cat_id", catId);
+        bundle.putString("cat_image_url", catImageUrl);
+        fragment.setArguments(bundle);
+        ((MainActivity) v.getContext()).setFragment(fragment);
     }
 
     @Override

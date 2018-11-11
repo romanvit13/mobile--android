@@ -11,7 +11,7 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.vit.roman.roman_vit_app.R;
-import com.vit.roman.roman_vit_app.model.User;
+import com.vit.roman.roman_vit_app.entity.User;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
