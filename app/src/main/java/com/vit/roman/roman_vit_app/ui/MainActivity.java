@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
 import com.vit.roman.roman_vit_app.R;
-import com.vit.roman.roman_vit_app.fragment.CatsFragment;
+import com.vit.roman.roman_vit_app.fragment.CatsListFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        setFragment(new CatsFragment());
+        setFragment(new CatsListFragment());
     }
 
     public void setFragment(final Fragment fragment) {

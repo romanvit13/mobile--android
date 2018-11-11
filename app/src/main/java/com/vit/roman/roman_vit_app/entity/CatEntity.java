@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ResultCat {
+public class CatEntity {
 
     @SerializedName("id")
     @Expose
@@ -24,7 +24,7 @@ public class ResultCat {
     private String mimeType;
     @SerializedName("breeds")
     @Expose
-    private List<Breed> breeds = null;
+    private List<BreedEntity> breeds = null;
     @SerializedName("categories")
     @Expose
     private List<Object> categories = null;
@@ -72,11 +72,11 @@ public class ResultCat {
         this.mimeType = mimeType;
     }
 
-    public List<Breed> getBreeds() {
+    public List<BreedEntity> getBreeds() {
         return breeds;
     }
 
-    public void setBreeds(List<Breed> breeds) {
+    public void setBreeds(List<BreedEntity> breeds) {
         this.breeds = breeds;
     }
 

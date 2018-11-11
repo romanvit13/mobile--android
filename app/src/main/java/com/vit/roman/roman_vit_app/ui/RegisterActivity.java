@@ -15,8 +15,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.vit.roman.roman_vit_app.R;
 import com.vit.roman.roman_vit_app.Validation;
-import com.vit.roman.roman_vit_app.entity.User;
-import com.vit.roman.roman_vit_app.fragment.CatsFragment;
+import com.vit.roman.roman_vit_app.entity.UserEntity;
+import com.vit.roman.roman_vit_app.fragment.CatsListFragment;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -77,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
                 //startActivity(CatsActivity.getStartIntent(RegisterActivity.this));
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                CatsFragment fragment = new CatsFragment();
+                CatsListFragment fragment = new CatsListFragment();
                 fragmentTransaction.add(R.id.recycler_view_cats, fragment);
                 fragmentTransaction.commit();
                 break;
@@ -93,14 +93,14 @@ public class RegisterActivity extends AppCompatActivity {
         mPasswordConfirmText = mPasswordConfirmEdit.getText().toString();
     }
 
-    private ArrayList<User> getArrayList() {
-        ArrayList<User> userArrayList = new ArrayList<>();
+    private ArrayList<UserEntity> getArrayList() {
+        ArrayList<UserEntity> userArrayList = new ArrayList<>();
         mUserPref = RegisterActivity.this.getApplicationContext()
                 .getSharedPreferences(USER_PREF, Context.MODE_PRIVATE);
         if (mUserPref.contains(USER_LIST)) {
             Gson gson = new Gson();
             String json = mUserPref.getString(USER_LIST, null);
-            Type type = new TypeToken<ArrayList<User>>() {
+            Type type = new TypeToken<ArrayList<UserEntity>>() {
             }.getType();
             userArrayList = gson.fromJson(json, type);
         }
@@ -118,9 +118,9 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void onSignUpSuccess() {
-        ArrayList<User> userArrayList = getArrayList();
+        ArrayList<UserEntity> userArrayList = getArrayList();
         int lastId = userArrayList.size() + 1;
-        User user = new User(lastId, mFirstNameText, mLastNameText, mPhoneText);
+        UserEntity user = new UserEntity(lastId, mFirstNameText, mLastNameText, mPhoneText);
 
         userArrayList.add(user);
         saveArrayList(userArrayList);

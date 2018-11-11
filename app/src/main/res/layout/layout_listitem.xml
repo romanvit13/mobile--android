@@ -37,9 +37,7 @@
             android:layout_margin="@dimen/layout_margin"
             android:layout_toEndOf="@id/imageView"
             android:text="@string/desc"
-            android:textSize="20sp"
-
-            />
+            android:textSize="20sp" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

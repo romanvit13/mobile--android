@@ -16,20 +16,22 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.vit.roman.roman_vit_app.R;
-import com.vit.roman.roman_vit_app.entity.Cat;
+import com.vit.roman.roman_vit_app.entity.CatEntity;
 import com.vit.roman.roman_vit_app.fragment.ExpandedFragment;
 import com.vit.roman.roman_vit_app.ui.MainActivity;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private static final String TAG = "RecyclerViewAdapter";
-    private ArrayList<Cat> mCats;
+    private List<CatEntity> mCats;
     private Context mContext;
 
-    public RecyclerViewAdapter(Context context, ArrayList<Cat> cats) {
+    public RecyclerViewAdapter(Context context, List<CatEntity> cats) {
         Log.i(TAG, "Constructor");
         mCats = cats;
         mContext = context;
@@ -52,7 +54,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         RequestOptions glideOptions = new RequestOptions();
         Glide.with(mContext)
                 .asBitmap()
-                .load(mCats.get(position).getImage())
+                .load(mCats.get(position).getUrl())
                 .apply(glideOptions.centerCrop())
                 .into(viewHolder.mImageView);
 
@@ -62,7 +64,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void onClick(View view) {
                 Log.i(TAG, "OnClick: " + mCats.get(position).getId());
                 Toast.makeText(mContext, mCats.get(position).getId(), Toast.LENGTH_SHORT).show();
-                startExpandedFragment(view, mCats.get(position).getId(), mCats.get(position).getImage());
+                startExpandedFragment(view, mCats.get(position).getId(), mCats.get(position).getUrl());
             }
         });
     }
@@ -86,19 +88,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         notifyDataSetChanged();
     }
 
-    public void addAll(List<Cat> cats) {
+    public void addAll(List<CatEntity> cats) {
         mCats.addAll(cats);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.imageView)
         ImageView mImageView;
+        @BindView(R.id.imageHeader)
         TextView mTextView;
+
         RelativeLayout mRecyclerView;
 
         ViewHolder(View itemView) {
             super(itemView);
-            mImageView = itemView.findViewById(R.id.imageView);
-            mTextView = itemView.findViewById(R.id.imageHeader);
+            ButterKnife.bind(this, itemView);
             mRecyclerView = itemView.findViewById(R.id.recycler_view_cats);
         }
     }

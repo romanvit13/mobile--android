@@ -17,6 +17,9 @@ import com.vit.roman.roman_vit_app.R;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<FavouritesRecyclerViewAdapter.ViewHolder> {
 
     private static final String FOLDER_NAME = "cat_images";
@@ -50,15 +53,16 @@ public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<Favourit
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.imageView)
         ImageView mImageView;
+        @BindView(R.id.imageHeader)
         TextView mTextView;
+        @BindView(R.id.recycler_view_cats)
         RelativeLayout mRecyclerView;
 
         ViewHolder(View itemView) {
             super(itemView);
-            mImageView = itemView.findViewById(R.id.imageView);
-            mTextView = itemView.findViewById(R.id.imageHeader);
-            mRecyclerView = itemView.findViewById(R.id.recycler_view_cats);
+            ButterKnife.bind(this, itemView);
         }
     }
 

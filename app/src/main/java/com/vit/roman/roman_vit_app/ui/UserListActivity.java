@@ -11,7 +11,7 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.vit.roman.roman_vit_app.R;
-import com.vit.roman.roman_vit_app.entity.User;
+import com.vit.roman.roman_vit_app.entity.UserEntity;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -34,20 +34,20 @@ public class UserListActivity extends AppCompatActivity {
 
     private void initListView() {
         ListView listView = findViewById(R.id.list_view);
-        ArrayList<User> userArrayList = getArrayList();
-        ArrayAdapter<User> adapter = new ArrayAdapter<>(this,
+        ArrayList<UserEntity> userArrayList = getArrayList();
+        ArrayAdapter<UserEntity> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, userArrayList);
         listView.setAdapter(adapter);
     }
 
-    private ArrayList<User> getArrayList() {
-        ArrayList<User> userArrayList = new ArrayList<>();
+    private ArrayList<UserEntity> getArrayList() {
+        ArrayList<UserEntity> userArrayList = new ArrayList<>();
         SharedPreferences userPref = UserListActivity.this.getApplicationContext()
                 .getSharedPreferences(USER_PREF, Context.MODE_PRIVATE);
         if (userPref.contains(USER_LIST)) {
             Gson gson = new Gson();
             String json = userPref.getString(USER_LIST, null);
-            Type type = new TypeToken<ArrayList<User>>() {
+            Type type = new TypeToken<ArrayList<UserEntity>>() {
             }.getType();
             userArrayList = gson.fromJson(json, type);
         }

@@ -3,7 +3,7 @@ package com.vit.roman.roman_vit_app.entity;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Breed {
+public class BreedEntity {
 
     @SerializedName("id")
     @Expose

@@ -15,8 +15,7 @@ import com.vit.roman.roman_vit_app.App;
 import com.vit.roman.roman_vit_app.CatInterface;
 import com.vit.roman.roman_vit_app.R;
 import com.vit.roman.roman_vit_app.adapter.RecyclerViewAdapter;
-import com.vit.roman.roman_vit_app.entity.Cat;
-import com.vit.roman.roman_vit_app.entity.ResultCat;
+import com.vit.roman.roman_vit_app.entity.CatEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,7 @@ import retrofit2.Response;
 public class CatsActivity extends AppCompatActivity {
 
     CatInterface mCatInterface;
-    private ArrayList<Cat> mCats = new ArrayList<>();
+    private ArrayList<CatEntity> mCats = new ArrayList<>();
     private SwipeRefreshLayout swipeContainer;
     private RecyclerViewAdapter mRecyclerViewAdapter;
     @BindView(R.id.button_go_to_favourite)
@@ -86,17 +85,17 @@ public class CatsActivity extends AppCompatActivity {
     }
 
     private void getCats() {
-        Call<List<ResultCat>> call = mCatInterface.imagesOfCats();
-        call.enqueue(new Callback<List<ResultCat>>() {
+        Call<List<CatEntity>> call = mCatInterface.imagesOfCats();
+        call.enqueue(new Callback<List<CatEntity>>() {
             @Override
-            public void onResponse(Call<List<ResultCat>> call, Response<List<ResultCat>> response) {
+            public void onResponse(Call<List<CatEntity>> call, Response<List<CatEntity>> response) {
                 mRecyclerViewAdapter.clear();
                 mCats.clear();
-                List<ResultCat> resultCats = response.body();
+                List<CatEntity> resultCats = response.body();
                 if (resultCats != null) {
-                    for (ResultCat resultCat : resultCats) {
-                        Cat cat = new Cat(resultCat.getId(), resultCat.getUrl());
-                        mCats.add(cat);
+                    for (CatEntity resultCat : resultCats) {
+                        //CatEntity cat = new CatEntity(resultCat.getId(), resultCat.getUrl());
+                        //mCats.add(cat);
                     }
                     mRecyclerViewAdapter.addAll(mCats);
                     swipeContainer.setRefreshing(false);
@@ -104,7 +103,7 @@ public class CatsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<ResultCat>> call, Throwable t) {
+            public void onFailure(Call<List<CatEntity>> call, Throwable t) {
                 Log.i("Cats", "Something went wrong.");
             }
         });
