@@ -16,6 +16,7 @@ import com.vit.roman.roman_vit_app.entity.CatEntity;
 import com.vit.roman.roman_vit_app.presenter.ExpandedPresenter;
 import com.vit.roman.roman_vit_app.presenter.ExpandedPresenterImpl;
 import com.vit.roman.roman_vit_app.repository.ExpandedRepository;
+import com.vit.roman.roman_vit_app.ui.MainActivity;
 import com.vit.roman.roman_vit_app.view.ExpandedView;
 
 import butterknife.BindView;
@@ -53,7 +54,11 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
     public void click(View v) {
         switch (v.getId()) {
             case R.id.image_view_expanded:
-
+                FullscreenPhotoFragment fullscreenPhotoFragment = new FullscreenPhotoFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("cat_image_url", mCatEntity.getUrl());
+                fullscreenPhotoFragment.setArguments(bundle);
+                ((MainActivity) v.getContext()).setFragment(fullscreenPhotoFragment);
                 break;
             case R.id.favourite_action_button:
                 mExpandedPresenter.addFavourite(mCatEntity);
