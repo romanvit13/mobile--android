@@ -25,14 +25,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private static final String TAG = "RecyclerViewAdapter";
     private ArrayList<Cat> mCats;
-    private Context mContext;
 
-    public RecyclerViewAdapter(Context context, ArrayList<Cat> cats) {
+    public RecyclerViewAdapter(ArrayList<Cat> cats) {
         Log.i(TAG, "Constructor");
         mCats = cats;
-        mContext = context;
     }
-    
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -42,26 +40,26 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return new ViewHolder(view);
     }
 
-
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int position) {
         Log.i(TAG, "onBindViewHolder");
-
+        final Context context = viewHolder.mImageView.getContext();
         RequestOptions glideOptions = new RequestOptions();
-        Glide.with(mContext)
+        Glide.with(context)
                 .asBitmap()
-                .load(mCats.get(position).getImage())
+                .load(mCats.get(viewHolder.getAdapterPosition()).getImage())
                 .apply(glideOptions.centerCrop())
                 .into(viewHolder.mImageView);
-
-        viewHolder.mTextView.setText(mCats.get(position).getId());
+        viewHolder.mTextView.setText(mCats.get(viewHolder.getAdapterPosition()).getId());
         viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG, "OnClick: " + mCats.get(position).getId());
-                Toast.makeText(mContext, mCats.get(position).getId(), Toast.LENGTH_SHORT).show();
-                mContext.startActivity(ExpandedActivity.getStartIntent(mContext,
-                        mCats.get(position).getId(), mCats.get(position).getImage()));
+                Log.i(TAG, "OnClick: " + mCats.get(viewHolder.getAdapterPosition()).getId());
+                Toast.makeText(context, mCats.get(viewHolder.getAdapterPosition()).getId(),
+                        Toast.LENGTH_SHORT).show();
+                context.startActivity(ExpandedActivity.getStartIntent(context,
+                        mCats.get(viewHolder.getAdapterPosition()).getId(),
+                        mCats.get(viewHolder.getAdapterPosition()).getImage()));
             }
         });
     }

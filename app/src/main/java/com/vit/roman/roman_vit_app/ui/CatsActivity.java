@@ -75,7 +75,7 @@ public class CatsActivity extends AppCompatActivity {
 
     private void initRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.recycler_view_cats);
-        mRecyclerViewAdapter = new RecyclerViewAdapter(this, mCats);
+        mRecyclerViewAdapter = new RecyclerViewAdapter(mCats);
         recyclerView.setAdapter(mRecyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

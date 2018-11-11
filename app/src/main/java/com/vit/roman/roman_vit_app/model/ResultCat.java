@@ -7,93 +7,93 @@ import java.util.List;
 
 public class ResultCat {
 
-    @SerializedName("id")
+    @SerializedName("mId")
     @Expose
-    private String id;
-    @SerializedName("url")
+    private String mId;
+    @SerializedName("mUrl")
     @Expose
-    private String url;
-    @SerializedName("width")
+    private String mUrl;
+    @SerializedName("mWidth")
     @Expose
-    private Integer width;
-    @SerializedName("height")
+    private Integer mWidth;
+    @SerializedName("mHeight")
     @Expose
-    private Integer height;
+    private Integer mHeight;
     @SerializedName("mime_type")
     @Expose
-    private String mimeType;
-    @SerializedName("breeds")
+    private String mMimeType;
+    @SerializedName("mBreeds")
     @Expose
-    private List<Breed> breeds = null;
-    @SerializedName("categories")
+    private List<Breed> mBreeds = null;
+    @SerializedName("mCategories")
     @Expose
-    private List<Object> categories = null;
+    private List<Object> mCategories = null;
     @SerializedName("breed_ids")
     @Expose
-    private String breedIds;
+    private String mBreedIds;
 
     public String getId() {
-        return id;
+        return mId;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.mId = id;
     }
 
     public String getUrl() {
-        return url;
+        return mUrl;
     }
 
     public void setUrl(String url) {
-        this.url = url;
+        this.mUrl = url;
     }
 
     public Integer getWidth() {
-        return width;
+        return mWidth;
     }
 
     public void setWidth(Integer width) {
-        this.width = width;
+        this.mWidth = width;
     }
 
     public Integer getHeight() {
-        return height;
+        return mHeight;
     }
 
     public void setHeight(Integer height) {
-        this.height = height;
+        this.mHeight = height;
     }
 
     public String getMimeType() {
-        return mimeType;
+        return mMimeType;
     }
 
     public void setMimeType(String mimeType) {
-        this.mimeType = mimeType;
+        this.mMimeType = mimeType;
     }
 
     public List<Breed> getBreeds() {
-        return breeds;
+        return mBreeds;
     }
 
     public void setBreeds(List<Breed> breeds) {
-        this.breeds = breeds;
+        this.mBreeds = breeds;
     }
 
     public List<Object> getCategories() {
-        return categories;
+        return mCategories;
     }
 
     public void setCategories(List<Object> categories) {
-        this.categories = categories;
+        this.mCategories = categories;
     }
 
     public String getBreedIds() {
-        return breedIds;
+        return mBreedIds;
     }
 
     public void setBreedIds(String breedIds) {
-        this.breedIds = breedIds;
+        this.mBreedIds = breedIds;
     }
 
 }

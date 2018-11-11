@@ -40,8 +40,9 @@ public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<Favourit
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.mTextView.setText(mCatIds.get(i));
-        viewHolder.mImageView.setImageBitmap(loadImageFromExternalStorage(mCatIds.get(i)));
+        viewHolder.mTextView.setText(mCatIds.get(viewHolder.getAdapterPosition()));
+        viewHolder.mImageView.setImageBitmap(loadImageFromExternalStorage(
+                mCatIds.get(viewHolder.getAdapterPosition())));
     }
 
     @Override
