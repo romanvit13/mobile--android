@@ -3,6 +3,7 @@ package com.vit.roman.roman_vit_app.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.vit.roman.roman_vit_app.entity.CatEntity;
@@ -39,6 +40,9 @@ public class ExpandedModelImpl implements ExpandedModel{
         if (bundle != null) {
             CatEntity catEntity = new Gson().fromJson(bundle.getString("cat_entity"), CatEntity.class);
             mOnFinishedListener.setCat(catEntity);
+            Log.i("TAG", "Everything is good.");
+        } else {
+            Log.i("TAG", "Something went wrong.");
         }
     }
 }

@@ -12,7 +12,7 @@ import retrofit2.Response;
 public class CatsListModelImpl implements CatsListModel {
 
     @Override
-    public void getHitArrayList(final OnFinishedListener onFinishedListener, final boolean isChange) {
+    public void getCatsArrayList(final OnFinishedListener onFinishedListener, final boolean isChange) {
         Call<List<CatEntity>> call = App.getApi().imagesOfCats();
         call.enqueue(new Callback<List<CatEntity>>() {
             @Override

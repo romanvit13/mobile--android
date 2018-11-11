@@ -29,11 +29,16 @@ public class ExpandedPresenterImpl implements ExpandedPresenter, ExpandedModel.O
 
     @Override
     public void setCat(CatEntity catEntity) {
-        view.setСat(catEntity);
+        view.setCat(catEntity);
     }
 
     @Override
     public void getCat() {
         model.getCat();
+    }
+
+    @Override
+    public void addFavourite(CatEntity catEntity) {
+        model.addToFavourite(catEntity);
     }
 }

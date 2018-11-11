@@ -36,6 +36,6 @@ public class CatsListPresenterImpl implements CatsListPresenter, CatsListModel.O
 
     @Override
     public void requestDataFromServer(boolean isChange) {
-        model.getHitArrayList(this, isChange);
+        model.getCatsArrayList(this, isChange);
     }
 }

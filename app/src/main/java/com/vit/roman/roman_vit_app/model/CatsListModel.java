@@ -11,6 +11,6 @@ public interface CatsListModel {
         void onFailure(Throwable t);
     }
 
-    void getHitArrayList(CatsListModel.OnFinishedListener onFinishedListener,
-                         boolean isChange);
+    void getCatsArrayList(CatsListModel.OnFinishedListener onFinishedListener,
+                          boolean isChange);
 }
