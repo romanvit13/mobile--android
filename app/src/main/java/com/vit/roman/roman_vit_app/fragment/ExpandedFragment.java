@@ -27,7 +27,12 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.vit.roman.roman_vit_app.R;
+import com.vit.roman.roman_vit_app.entity.CatEntity;
+import com.vit.roman.roman_vit_app.presenter.ExpandedPresenter;
+import com.vit.roman.roman_vit_app.presenter.ExpandedPresenterImpl;
+import com.vit.roman.roman_vit_app.repository.ExpandedRepository;
 import com.vit.roman.roman_vit_app.ui.MainActivity;
+import com.vit.roman.roman_vit_app.view.ExpandedView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -39,7 +44,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ExpandedFragment extends Fragment {
+public class ExpandedFragment extends Fragment implements ExpandedView {
+
+    private ExpandedPresenter mExpandedPresenter;
+    private ExpandedRepository mExpandedRepository;
+    private CatEntity mCatEntity;
 
     @BindView(R.id.image_view_expanded)
     ImageView mImageView;
@@ -66,8 +75,10 @@ public class ExpandedFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.activity_item_expanded, container, false);
         ButterKnife.bind(this, view);
-        initArrayList();
-        getIncomingBundle();
+
+        mExpandedRepository = new ExpandedRepository(getActivity(), this);
+        mExpandedPresenter = new ExpandedPresenterImpl(this, mExpandedRepository);
+
         return view;
     }
 
@@ -233,5 +244,20 @@ public class ExpandedFragment extends Fragment {
         if (!appDirectory.exists())
             appDirectory.mkdirs();
         return appDirectory;
+    }
+
+    @Override
+    public void addToFavourite() {
+
+    }
+
+    @Override
+    public void removeFromFavourite() {
+
+    }
+
+    @Override
+    public void setCat(CatEntity catEntity) {
+
     }
 }
