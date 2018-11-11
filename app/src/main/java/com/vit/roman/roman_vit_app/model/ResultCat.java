@@ -7,25 +7,25 @@ import java.util.List;
 
 public class ResultCat {
 
-    @SerializedName("mId")
+    @SerializedName("id")
     @Expose
     private String mId;
-    @SerializedName("mUrl")
+    @SerializedName("url")
     @Expose
     private String mUrl;
-    @SerializedName("mWidth")
+    @SerializedName("width")
     @Expose
     private Integer mWidth;
-    @SerializedName("mHeight")
+    @SerializedName("height")
     @Expose
     private Integer mHeight;
     @SerializedName("mime_type")
     @Expose
     private String mMimeType;
-    @SerializedName("mBreeds")
+    @SerializedName("breeds")
     @Expose
     private List<Breed> mBreeds = null;
-    @SerializedName("mCategories")
+    @SerializedName("categories")
     @Expose
     private List<Object> mCategories = null;
     @SerializedName("breed_ids")
