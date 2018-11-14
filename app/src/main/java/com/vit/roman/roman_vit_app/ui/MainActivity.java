@@ -13,6 +13,8 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String PHOTO_URL = "cat_image_url";
+
     @BindView(R.id.frame_container)
     FrameLayout frameLayout;
 

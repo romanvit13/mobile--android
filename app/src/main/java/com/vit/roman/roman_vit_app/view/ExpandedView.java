@@ -6,4 +6,5 @@ public interface ExpandedView {
     void addToFavourite();
     void removeFromFavourite();
     void setCat(CatEntity catEntity);
+    void onPhotoClick();
 }

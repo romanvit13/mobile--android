@@ -15,7 +15,6 @@ import butterknife.ButterKnife;
 import uk.co.senab.photoview.PhotoView;
 
 public class FullscreenPhotoFragment extends Fragment {
-    private static final String IMAGE_URL = "cat_image_url";
 
     @BindView(R.id.photo_view)
     PhotoView mPhotoView;

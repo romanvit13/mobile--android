@@ -1,6 +1,7 @@
 package com.vit.roman.roman_vit_app.presenter;
 
 import com.vit.roman.roman_vit_app.entity.CatEntity;
+import com.vit.roman.roman_vit_app.fragment.FullscreenPhotoFragment;
 import com.vit.roman.roman_vit_app.model.ExpandedModel;
 import com.vit.roman.roman_vit_app.model.ExpandedModelImpl;
 import com.vit.roman.roman_vit_app.repository.ExpandedRepository;
@@ -40,5 +41,10 @@ public class ExpandedPresenterImpl implements ExpandedPresenter, ExpandedModel.O
     @Override
     public void addFavourite(CatEntity catEntity) {
         model.addToFavourite(catEntity);
+    }
+
+    @Override
+    public void startFullScreenPhotoFragment(FullscreenPhotoFragment fullscreenPhotoFragment) {
+
     }
 }
