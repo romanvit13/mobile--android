@@ -16,10 +16,8 @@
         <activity android:name=".ui.RegisterActivity">
         </activity>
         <activity android:name=".ui.UserListActivity" />
-        <activity android:name=".ui.CatsActivity" />
         <activity android:name=".ui.ExpandedActivity" />
         <activity android:name=".ui.FullscreenPhotoActivity" />
-        <activity android:name=".ui.FavouritesListActivity" />
         <activity android:name=".ui.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

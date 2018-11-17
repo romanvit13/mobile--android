@@ -2,7 +2,6 @@ package com.vit.roman.roman_vit_app.presenter;
 
 import com.vit.roman.roman_vit_app.model.FullScreenPhotoModel;
 import com.vit.roman.roman_vit_app.model.FullScreenPhotoModelImpl;
-import com.vit.roman.roman_vit_app.repository.FullScreenPhotoRepository;
 import com.vit.roman.roman_vit_app.view.FullScreenPhotoView;
 
 public class FullScreenPhotoPresenterImpl implements FullScreenPhotoPresenter,
@@ -10,13 +9,10 @@ public class FullScreenPhotoPresenterImpl implements FullScreenPhotoPresenter,
 
     FullScreenPhotoModel mModel;
     FullScreenPhotoView mView;
-    FullScreenPhotoRepository mRepository;
 
-    FullScreenPhotoPresenterImpl(FullScreenPhotoView view,
-                                 FullScreenPhotoRepository repository) {
+    FullScreenPhotoPresenterImpl(FullScreenPhotoView view) {
         mView = view;
-        mRepository = repository;
-        mModel = new FullScreenPhotoModelImpl(repository, this);
+        mModel = new FullScreenPhotoModelImpl(this);
     }
 
     @Override

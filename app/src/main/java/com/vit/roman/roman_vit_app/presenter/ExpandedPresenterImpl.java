@@ -4,20 +4,16 @@ import com.vit.roman.roman_vit_app.entity.CatEntity;
 import com.vit.roman.roman_vit_app.fragment.FullscreenPhotoFragment;
 import com.vit.roman.roman_vit_app.model.ExpandedModel;
 import com.vit.roman.roman_vit_app.model.ExpandedModelImpl;
-import com.vit.roman.roman_vit_app.repository.ExpandedRepository;
 import com.vit.roman.roman_vit_app.view.ExpandedView;
 
 public class ExpandedPresenterImpl implements ExpandedPresenter, ExpandedModel.OnFinishedListener {
 
     private ExpandedView view;
     private ExpandedModel model;
-    ExpandedRepository repository;
 
-    public ExpandedPresenterImpl(ExpandedView view,
-                                ExpandedRepository repository) {
-        this.repository = repository;
+    public ExpandedPresenterImpl(ExpandedView view) {
         this.view = view;
-        this.model = new ExpandedModelImpl(repository, this);
+        this.model = new ExpandedModelImpl(this);
     }
 
     public void onAdd() {
