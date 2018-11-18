@@ -4,6 +4,8 @@
     <string name="desc">Description.</string>
     <string name="favourite_button_action_add">Add to the favourites</string>
     <string name="favourite_button_action_rm">Remove from the favourites</string>
+    <string name="favourite_button_success">Successfully added!</string>
+    <string name="favourite_button_rm">Successfully removed!</string>
     <string name="button_content_desc">Favourites</string>
     <string name="no_cat">It is no cat data.</string>
     <string name="image_content_desc">Picture of a cat</string>
