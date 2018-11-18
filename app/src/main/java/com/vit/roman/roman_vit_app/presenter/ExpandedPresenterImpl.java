@@ -1,7 +1,8 @@
 package com.vit.roman.roman_vit_app.presenter;
 
+import android.content.Context;
+
 import com.vit.roman.roman_vit_app.entity.CatEntity;
-import com.vit.roman.roman_vit_app.fragment.FullscreenPhotoFragment;
 import com.vit.roman.roman_vit_app.model.ExpandedModel;
 import com.vit.roman.roman_vit_app.model.ExpandedModelImpl;
 import com.vit.roman.roman_vit_app.view.ExpandedView;
@@ -11,9 +12,10 @@ public class ExpandedPresenterImpl implements ExpandedPresenter, ExpandedModel.O
     private ExpandedView view;
     private ExpandedModel model;
 
-    public ExpandedPresenterImpl(ExpandedView view) {
+
+    public ExpandedPresenterImpl(ExpandedView view, Context context) {
         this.view = view;
-        this.model = new ExpandedModelImpl(this);
+        this.model = new ExpandedModelImpl(this, context);
     }
 
     public void onAdd() {
@@ -37,10 +39,5 @@ public class ExpandedPresenterImpl implements ExpandedPresenter, ExpandedModel.O
     @Override
     public void addFavourite(CatEntity catEntity) {
         model.addToFavourite(catEntity);
-    }
-
-    @Override
-    public void startFullScreenPhotoFragment(FullscreenPhotoFragment fullscreenPhotoFragment) {
-
     }
 }

@@ -43,7 +43,6 @@ public class CatsListFragment extends Fragment implements CatsListView {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.activity_items_list, container, false);
         ButterKnife.bind(this, view);
-
         mPresenter = new CatsListPresenterImpl(this);
         mPresenter.requestDataFromServer(isChange);
         initRefreshLayout();

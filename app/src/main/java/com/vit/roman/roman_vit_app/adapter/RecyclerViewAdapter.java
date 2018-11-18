@@ -42,7 +42,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         Log.i(TAG, "onCreateViewHolder");
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.layout_listitem, viewGroup, false);
+                .inflate(R.layout.listitem, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -54,17 +54,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         RequestOptions glideOptions = new RequestOptions();
         Glide.with(mContext)
                 .asBitmap()
-                .load(mCats.get(position).getUrl())
+                .load(mCats.get(viewHolder.getAdapterPosition()).getUrl())
                 .apply(glideOptions.centerCrop())
                 .into(viewHolder.mImageView);
 
-        viewHolder.mTextView.setText(mCats.get(position).getId());
+        viewHolder.mTextView.setText(mCats.get(viewHolder.getAdapterPosition()).getId());
         viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG, "OnClick: " + mCats.get(position).getId());
-                Toast.makeText(mContext, mCats.get(position).getId(), Toast.LENGTH_SHORT).show();
-                App.setmCatEntity(mCats.get(position));
+                Log.i(TAG, "OnClick: " + mCats.get(viewHolder.getAdapterPosition()).getId());
+                Toast.makeText(mContext, mCats.get(viewHolder.getAdapterPosition()).getId(), Toast.LENGTH_SHORT).show();
+                App.setCatEntity(mCats.get(viewHolder.getAdapterPosition()));
                 ExpandedFragment fragment = new ExpandedFragment();
                 ((MainActivity) view.getContext()).setFragment(fragment);
             }

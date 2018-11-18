@@ -1,9 +1,10 @@
 package com.vit.roman.roman_vit_app.model;
 
-import android.content.SharedPreferences;
+import android.content.Context;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.vit.roman.roman_vit_app.App;
+import com.vit.roman.roman_vit_app.Preferences;
 import com.vit.roman.roman_vit_app.entity.CatEntity;
 
 import java.util.ArrayList;
@@ -13,22 +14,24 @@ import java.util.Map;
 public class FavouritesModelImpl implements FavouritesModel {
 
     FavouritesModel.OnLoadListener mOnLoadListener;
-    SharedPreferences mPrefs;
+    Preferences mPrefs;
+    Context mContext;
 
-    public FavouritesModelImpl(FavouritesModel.OnLoadListener onLoadListener) {
+    public FavouritesModelImpl(FavouritesModel.OnLoadListener onLoadListener, Context context) {
         this.mOnLoadListener = onLoadListener;
-        this.mPrefs = App.getmSharedPrefs();
+        this.mPrefs = new Preferences(context);
+        mContext = context;
     }
 
     @Override
     public void getList() {
-        SharedPreferences mPrefs = App.getmSharedPrefs();
         List<CatEntity> catEntities = new ArrayList<>();
-        Map<String, ?> map = mPrefs.getAll();
+        Map<String, ?> map = mPrefs.getSharedPrefs().getAll();
 
         for (Map.Entry<String, ?> entry : map.entrySet()) {
             CatEntity cat = new Gson().fromJson(entry.getValue().toString(), CatEntity.class);
             catEntities.add(cat);
+            Toast.makeText(mContext, cat.getId(), Toast.LENGTH_SHORT).show();
         }
         mOnLoadListener.onSuccess(catEntities);
     }

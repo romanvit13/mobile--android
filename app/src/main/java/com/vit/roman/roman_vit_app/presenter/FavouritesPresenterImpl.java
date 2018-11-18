@@ -1,5 +1,7 @@
 package com.vit.roman.roman_vit_app.presenter;
 
+import android.content.Context;
+
 import com.vit.roman.roman_vit_app.entity.CatEntity;
 import com.vit.roman.roman_vit_app.model.FavouritesModel;
 import com.vit.roman.roman_vit_app.model.FavouritesModelImpl;
@@ -12,9 +14,9 @@ public class FavouritesPresenterImpl implements FavouritesPresenter, FavouritesM
     FavouritesModel model;
     FavouritesView view;
 
-    public FavouritesPresenterImpl(FavouritesView view) {
+    public FavouritesPresenterImpl(FavouritesView view, Context context) {
         this.view = view;
-        this.model = new FavouritesModelImpl(this);
+        this.model = new FavouritesModelImpl(this, context);
     }
 
     @Override

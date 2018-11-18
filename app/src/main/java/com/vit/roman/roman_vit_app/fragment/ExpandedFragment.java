@@ -41,7 +41,7 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.activity_item_expanded, container, false);
         ButterKnife.bind(this, view);
-        mExpandedPresenter = new ExpandedPresenterImpl(this);
+        mExpandedPresenter = new ExpandedPresenterImpl(this, getContext());
         getCatEntity();
         setItems();
         return view;
@@ -51,7 +51,7 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
     public void click(View v) {
         switch (v.getId()) {
             case R.id.image_view_expanded:
-                App.setmCatEntity(mCatEntity);
+                App.setCatEntity(mCatEntity);
                 FullscreenPhotoFragment fullscreenPhotoFragment = new FullscreenPhotoFragment();
                 ((MainActivity) v.getContext()).setFragment(fullscreenPhotoFragment);
                 break;
@@ -64,13 +64,15 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
     private void setItems() {
         if (mCatEntity != null) {
             RequestOptions glideOptions = new RequestOptions();
-            Glide.with(App.getAppContext())
-                    .load(mCatEntity.getUrl())
-                    .apply(glideOptions.centerCrop())
-                    .into(mImageView);
-            mTextView.setText(mCatEntity.getId());
+            if (getContext() != null) {
+                Glide.with(getContext())
+                        .load(mCatEntity.getUrl())
+                        .apply(glideOptions.centerCrop())
+                        .into(mImageView);
+                mTextView.setText(mCatEntity.getId());
+            }
         } else {
-            Toast.makeText(App.getAppContext(), "CatEntity is NULL", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getResources().getString(R.string.no_cat), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -89,10 +91,6 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
         this.mCatEntity = catEntity;
     }
 
-    @Override
-    public void onPhotoClick() {
-
-    }
 
     private void getCatEntity() {
         mExpandedPresenter.getCat();

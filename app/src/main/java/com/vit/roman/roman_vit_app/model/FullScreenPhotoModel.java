@@ -1,11 +1,10 @@
 package com.vit.roman.roman_vit_app.model;
 
+import com.vit.roman.roman_vit_app.entity.CatEntity;
+
 public interface FullScreenPhotoModel {
-
     interface OnFinishedListener {
-        void setCatUrl(String catUrl);
+        void setCat(CatEntity catEntity);
     }
-
-    void getCatUrl();
-    void setBundleToFragment();
+    void getCat();
 }

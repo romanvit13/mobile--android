@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.vit.roman.roman_vit_app.App;
 import com.vit.roman.roman_vit_app.R;
 import com.vit.roman.roman_vit_app.entity.CatEntity;
 
@@ -33,7 +32,7 @@ public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<Favourit
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.layout_listitem, viewGroup, false);
+                .inflate(R.layout.listitem, viewGroup, false);
         return new ViewHolder(view);
 
     }
@@ -42,7 +41,7 @@ public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<Favourit
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         viewHolder.mTextView.setText(mCatEntities.get(i).getId());
         RequestOptions glideOptions = new RequestOptions();
-        Glide.with(App.getAppContext())
+        Glide.with(viewHolder.mImageView.getContext())
                 .asBitmap()
                 .load(mCatEntities.get(i).getUrl())
                 .apply(glideOptions.centerCrop())
@@ -59,12 +58,13 @@ public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<Favourit
         ImageView mImageView;
         @BindView(R.id.imageHeader)
         TextView mTextView;
-        @BindView(R.id.recycler_view_cats)
+
         RelativeLayout mRecyclerView;
 
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            mRecyclerView = itemView.findViewById(R.id.recycler_view_favourites);
         }
     }
 

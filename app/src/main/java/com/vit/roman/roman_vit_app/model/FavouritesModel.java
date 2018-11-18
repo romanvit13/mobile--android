@@ -7,7 +7,7 @@ import java.util.List;
 public interface FavouritesModel {
     interface OnLoadListener {
         void onSuccess(List<CatEntity> catEntityList);
-        void onFailure(Throwable t);
+        void onFailure(Throwable e);
     }
     void getList();
 }

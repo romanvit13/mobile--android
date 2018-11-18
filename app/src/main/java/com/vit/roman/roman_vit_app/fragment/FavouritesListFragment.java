@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.vit.roman.roman_vit_app.R;
 import com.vit.roman.roman_vit_app.adapter.FavouritesRecyclerViewAdapter;
@@ -25,19 +26,14 @@ public class FavouritesListFragment extends Fragment implements FavouritesView {
     @BindView(R.id.recycler_view_favourites)
     RecyclerView recyclerView;
     FavouritesPresenter mFavouritesPresenter;
-    FavouritesRecyclerViewAdapter mRecyclerViewAdapter;
 
-    private void initRecyclerView() {
-
-    }
 
     @Override
-    public View onCreateView( LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_favourites_list, container, false);
         ButterKnife.bind(this, view);
-        mFavouritesPresenter = new FavouritesPresenterImpl(this);
+        mFavouritesPresenter = new FavouritesPresenterImpl(this, getContext());
         mFavouritesPresenter.getCats();
-        initRecyclerView();
         return view;
     }
 
@@ -46,11 +42,11 @@ public class FavouritesListFragment extends Fragment implements FavouritesView {
         FavouritesRecyclerViewAdapter recyclerViewAdapter = new FavouritesRecyclerViewAdapter(catsArrayList);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(mRecyclerViewAdapter);
     }
 
     @Override
     public void onResponseFailure(Throwable throwable) {
-
+        Toast.makeText(getActivity(), "Failed: " + throwable.getMessage(),
+                Toast.LENGTH_SHORT).show();
     }
 }
