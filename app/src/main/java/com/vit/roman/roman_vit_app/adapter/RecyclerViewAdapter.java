@@ -1,7 +1,6 @@
 package com.vit.roman.roman_vit_app.adapter;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,7 +14,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.gson.Gson;
+import com.vit.roman.roman_vit_app.App;
 import com.vit.roman.roman_vit_app.R;
 import com.vit.roman.roman_vit_app.entity.CatEntity;
 import com.vit.roman.roman_vit_app.fragment.ExpandedFragment;
@@ -43,7 +42,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         Log.i(TAG, "onCreateViewHolder");
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.layout_listitem, viewGroup, false);
+                .inflate(R.layout.listitem, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -55,20 +54,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         RequestOptions glideOptions = new RequestOptions();
         Glide.with(mContext)
                 .asBitmap()
-                .load(mCats.get(position).getUrl())
+                .load(mCats.get(viewHolder.getAdapterPosition()).getUrl())
                 .apply(glideOptions.centerCrop())
                 .into(viewHolder.mImageView);
 
-        viewHolder.mTextView.setText(mCats.get(position).getId());
+        viewHolder.mTextView.setText(mCats.get(viewHolder.getAdapterPosition()).getId());
         viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG, "OnClick: " + mCats.get(position).getId());
-                Toast.makeText(mContext, mCats.get(position).getId(), Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "OnClick: " + mCats.get(viewHolder.getAdapterPosition()).getId());
+                Toast.makeText(mContext, mCats.get(viewHolder.getAdapterPosition()).getId(), Toast.LENGTH_SHORT).show();
+                App.setCatEntity(mCats.get(viewHolder.getAdapterPosition()));
                 ExpandedFragment fragment = new ExpandedFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("cat_entity", new Gson().toJson(mCats.get(viewHolder.getAdapterPosition())));
-                fragment.setArguments(bundle);
                 ((MainActivity) view.getContext()).setFragment(fragment);
             }
         });

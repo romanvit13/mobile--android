@@ -1,48 +1,40 @@
 package com.vit.roman.roman_vit_app.model;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.util.Log;
+import android.widget.Toast;
 
-import com.google.gson.Gson;
+import com.vit.roman.roman_vit_app.App;
+import com.vit.roman.roman_vit_app.Preferences;
 import com.vit.roman.roman_vit_app.entity.CatEntity;
-import com.vit.roman.roman_vit_app.repository.ExpandedRepository;
 
 public class ExpandedModelImpl implements ExpandedModel{
 
     ExpandedModel.OnFinishedListener mOnFinishedListener;
-    SharedPreferences mPrefs;
+    Preferences mPreferences;
     Context mContext;
-    ExpandedRepository mExpandedRepository;
 
-    public ExpandedModelImpl(ExpandedRepository expandedRepository,
-                             OnFinishedListener onFinishedListener) {
-        this.mExpandedRepository = expandedRepository;
+    public ExpandedModelImpl(OnFinishedListener onFinishedListener, Context context) {
         this.mOnFinishedListener = onFinishedListener;
-        this.mPrefs = mExpandedRepository.getContext().getSharedPreferences("favourites", Context.MODE_PRIVATE);
+        mContext = context;
+        this.mPreferences = new Preferences(context);
     }
 
     @Override
     public void addToFavourite(CatEntity catEntity) {
-        if (!mPrefs.contains(catEntity.getId())) {
-            mPrefs.edit().putString(catEntity.getId(), new Gson().toJson(catEntity)).apply();
+        if (!mPreferences.getSharedPrefs().contains(catEntity.getId())) {
+            mPreferences.putIntoSharedPrefs(catEntity);
+            Toast.makeText(mContext, "Successfully added!", Toast.LENGTH_SHORT).show();
             mOnFinishedListener.onAdd();
         } else {
-            mPrefs.edit().remove(catEntity.getId()).apply();
+            mPreferences.rmFromSharedPrefs(catEntity);
+            Toast.makeText(mContext, "Removed!", Toast.LENGTH_SHORT).show();
             mOnFinishedListener.onRemove();
         }
     }
 
     @Override
     public void getCat() {
-        Bundle bundle = mExpandedRepository.getFragment().getArguments();
-        if (bundle != null) {
-            CatEntity catEntity = new Gson().fromJson(bundle.getString("cat_entity"), CatEntity.class);
-            mOnFinishedListener.setCat(catEntity);
-            Log.i("TAG", "Everything is good.");
-        } else {
-            Log.i("TAG", "Something went wrong.");
-        }
+        mOnFinishedListener.setCat(App.getCatEntity());
     }
+
 }

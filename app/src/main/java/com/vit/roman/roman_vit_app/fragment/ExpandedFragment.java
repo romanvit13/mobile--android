@@ -8,14 +8,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.vit.roman.roman_vit_app.App;
 import com.vit.roman.roman_vit_app.R;
 import com.vit.roman.roman_vit_app.entity.CatEntity;
 import com.vit.roman.roman_vit_app.presenter.ExpandedPresenter;
 import com.vit.roman.roman_vit_app.presenter.ExpandedPresenterImpl;
-import com.vit.roman.roman_vit_app.repository.ExpandedRepository;
 import com.vit.roman.roman_vit_app.ui.MainActivity;
 import com.vit.roman.roman_vit_app.view.ExpandedView;
 
@@ -25,16 +26,14 @@ import butterknife.OnClick;
 
 public class ExpandedFragment extends Fragment implements ExpandedView {
 
-    private ExpandedPresenter mExpandedPresenter;
-    private ExpandedRepository mExpandedRepository;
-    private CatEntity mCatEntity;
-
     @BindView(R.id.image_view_expanded)
     ImageView mImageView;
     @BindView(R.id.text_view_expanded)
     TextView mTextView;
     @BindView(R.id.favourite_action_button)
     Button mButtonFavourites;
+    private ExpandedPresenter mExpandedPresenter;
+    private CatEntity mCatEntity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,9 +41,7 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.activity_item_expanded, container, false);
         ButterKnife.bind(this, view);
-
-        mExpandedRepository = new ExpandedRepository(getActivity(), this);
-        mExpandedPresenter = new ExpandedPresenterImpl(this, mExpandedRepository);
+        mExpandedPresenter = new ExpandedPresenterImpl(this, getContext());
         getCatEntity();
         setItems();
         return view;
@@ -54,10 +51,8 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
     public void click(View v) {
         switch (v.getId()) {
             case R.id.image_view_expanded:
+                App.setCatEntity(mCatEntity);
                 FullscreenPhotoFragment fullscreenPhotoFragment = new FullscreenPhotoFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("cat_image_url", mCatEntity.getUrl());
-                fullscreenPhotoFragment.setArguments(bundle);
                 ((MainActivity) v.getContext()).setFragment(fullscreenPhotoFragment);
                 break;
             case R.id.favourite_action_button:
@@ -67,12 +62,18 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
     }
 
     private void setItems() {
-        RequestOptions glideOptions = new RequestOptions();
-        Glide.with(getActivity())
-                .load(mCatEntity.getUrl())
-                .apply(glideOptions.centerCrop())
-                .into(mImageView);
-        mTextView.setText(mCatEntity.getId());
+        if (mCatEntity != null) {
+            RequestOptions glideOptions = new RequestOptions();
+            if (getContext() != null) {
+                Glide.with(getContext())
+                        .load(mCatEntity.getUrl())
+                        .apply(glideOptions.centerCrop())
+                        .into(mImageView);
+                mTextView.setText(mCatEntity.getId());
+            }
+        } else {
+            Toast.makeText(getContext(), getResources().getString(R.string.no_cat), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -89,6 +90,7 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
     public void setCat(CatEntity catEntity) {
         this.mCatEntity = catEntity;
     }
+
 
     private void getCatEntity() {
         mExpandedPresenter.getCat();
