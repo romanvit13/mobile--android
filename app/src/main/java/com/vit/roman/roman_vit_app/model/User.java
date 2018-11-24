@@ -1,55 +1,56 @@
 package com.vit.roman.roman_vit_app.model;
 
 public class User {
-    private int id;
-    private String firstName;
-    private String lastName;
-    private String phone;
+
+    private int mId;
+    private String mFirstName;
+    private String mLastName;
+    private String mPhone;
 
     public User(int id, String firstName, String lastName, String phone) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
+        this.mId = id;
+        this.mFirstName = firstName;
+        this.mLastName = lastName;
+        this.mPhone = phone;
     }
 
     @Override
     public String toString() {
-        return "User id: " + id +
-                "\nFirst name: " + firstName +
-                "\nLast name: " + lastName +
-                "\nPhone: " + phone;
+        return "User mId: " + mId +
+                "\nFirst name: " + mFirstName +
+                "\nLast name: " + mLastName +
+                "\nPhone: " + mPhone;
     }
 
     public int getId() {
-        return id;
+        return mId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.mId = id;
     }
 
     public String getFirstName() {
-        return firstName;
+        return mFirstName;
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.mFirstName = firstName;
     }
 
     public String getLastName() {
-        return lastName;
+        return mLastName;
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.mLastName = lastName;
     }
 
     public String getPhone() {
-        return phone;
+        return mPhone;
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.mPhone = phone;
     }
 }

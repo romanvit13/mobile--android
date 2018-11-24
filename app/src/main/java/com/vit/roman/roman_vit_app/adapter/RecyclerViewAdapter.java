@@ -1,8 +1,6 @@
 package com.vit.roman.roman_vit_app.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,16 +23,14 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private String TAG = "Adapter";
+    private static final String TAG = "RecyclerViewAdapter";
     private ArrayList<Cat> mCats;
-    private Context mContext;
 
-    public RecyclerViewAdapter(Context context, ArrayList<Cat> cats) {
+    public RecyclerViewAdapter(ArrayList<Cat> cats) {
         Log.i(TAG, "Constructor");
         mCats = cats;
-        mContext = context;
     }
-    
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -44,41 +40,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return new ViewHolder(view);
     }
 
-    @SuppressLint("CheckResult")
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int position) {
         Log.i(TAG, "onBindViewHolder");
-
+        final Context context = viewHolder.mImageView.getContext();
         RequestOptions glideOptions = new RequestOptions();
-        glideOptions.centerCrop();
-
-        Glide.with(mContext)
+        Glide.with(context)
                 .asBitmap()
-                .load(mCats.get(position).getImage())
-                .apply(glideOptions)
+                .load(mCats.get(viewHolder.getAdapterPosition()).getImage())
+                .apply(glideOptions.centerCrop())
                 .into(viewHolder.mImageView);
-
-        viewHolder.mTextView.setText(mCats.get(position).getId());
+        viewHolder.mTextView.setText(mCats.get(viewHolder.getAdapterPosition()).getId());
         viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG, "OnClick: " + mCats.get(position).getId());
-                Toast.makeText(mContext, mCats.get(position).getId(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(mContext, ExpandedActivity.class);
-                intent.putExtra("cat_id", mCats.get(position).getId());
-                intent.putExtra("cat_image_url", mCats.get(position).getImage());
-                mContext.startActivity(intent);
+                Log.i(TAG, "OnClick: " + mCats.get(viewHolder.getAdapterPosition()).getId());
+                Toast.makeText(context, mCats.get(viewHolder.getAdapterPosition()).getId(),
+                        Toast.LENGTH_SHORT).show();
+                context.startActivity(ExpandedActivity.getStartIntent(context,
+                        mCats.get(viewHolder.getAdapterPosition()).getId(),
+                        mCats.get(viewHolder.getAdapterPosition()).getImage()));
             }
         });
-//        viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(mContext, ExpandedActivity.class);
-//                intent.putExtra("cat_id", mCats.get(position).getId());
-//                intent.putExtra("cat_image_url", mCats.get(position).getImage());
-//                mContext.startActivity(intent);
-//            }
-//        });
     }
 
     @Override
@@ -98,13 +81,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mImageView;
         TextView mTextView;
-        RelativeLayout parentLayout;
+        RelativeLayout mRecyclerView;
 
         ViewHolder(View itemView) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.imageView);
             mTextView = itemView.findViewById(R.id.imageHeader);
-            parentLayout = itemView.findViewById(R.id.parent_layout);
+            mRecyclerView = itemView.findViewById(R.id.recycler_view_cats);
         }
     }
 }

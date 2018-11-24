@@ -7,25 +7,25 @@ public class Breed {
 
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private Integer mId;
     @SerializedName("name")
     @Expose
-    private String name;
+    private String mName;
 
     public Integer getId() {
-        return id;
+        return mId;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.mId = id;
     }
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.mName = name;
     }
 
 }

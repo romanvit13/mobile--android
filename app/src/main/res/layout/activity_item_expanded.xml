@@ -22,4 +22,13 @@
         android:textSize="@dimen/text_size"
         android:text="@string/desc"
         />
+
+    <Button
+        android:id="@+id/favourite_action_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/favourite_button_action_add"
+        android:textSize="@dimen/text_size"
+        android:textAllCaps="true"
+        />
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.vit.roman.roman_vit_app.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,10 @@ public class UserListActivity extends AppCompatActivity {
 
     private static final String USER_LIST = "USER_LIST";
     private static final String USER_PREF = "USER_PREF";
+
+    public static Intent getStartIntent(Context context) {
+        return new Intent(context, UserListActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
