@@ -1,6 +1,5 @@
 package com.vit.roman.roman_vit_app.catslist;
 
 public interface CatsListPresenter {
-    void requestDataFromServer(boolean isChange);
-
+    void requestDataFromServer();
 }

@@ -12,14 +12,14 @@ import retrofit2.Response;
 public class CatsListModelImpl implements CatsListModel {
 
     @Override
-    public void getCatsArrayList(final OnFinishedListener onFinishedListener, final boolean isChange) {
+    public void getCatsArrayList(final OnFinishedListener onFinishedListener) {
         Call<List<CatEntity>> call = App.getApi().imagesOfCats();
         call.enqueue(new Callback<List<CatEntity>>() {
             @Override
             public void onResponse(Call<List<CatEntity>> call,
                                    Response<List<CatEntity>> response) {
                 List<CatEntity> resultCats = response.body();
-                onFinishedListener.onFinished(resultCats, isChange);
+                onFinishedListener.onFinished(resultCats);
             }
 
             @Override

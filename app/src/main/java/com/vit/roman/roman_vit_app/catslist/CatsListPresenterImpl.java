@@ -15,24 +15,21 @@ public class CatsListPresenterImpl implements CatsListPresenter, CatsListModel.O
     }
 
     @Override
-    public void onFinished(List<CatEntity> resultCatsArrayList, boolean isChange) {
+    public void onFinished(List<CatEntity> resultCatsArrayList) {
         if (view != null) {
-            if (!isChange) {
-                view.setDataToRecyclerView(resultCatsArrayList);
-            } else {
-                view.refreshData(resultCatsArrayList);
-            }
+            view.setDataToRecyclerView(resultCatsArrayList);
+
         }
     }
 
     @Override
     public void onFailure(Throwable t) {
-        if (view!=null)
+        if (view != null)
             view.onResponseFailure(t);
     }
 
     @Override
-    public void requestDataFromServer(boolean isChange) {
-        model.getCatsArrayList(this, isChange);
+    public void requestDataFromServer() {
+        model.getCatsArrayList(this);
     }
 }

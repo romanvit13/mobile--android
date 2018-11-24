@@ -15,11 +15,11 @@ public class FullScreenPhotoPresenterImpl implements FullScreenPhotoPresenter,
 
     @Override
     public void getCat() {
-        mModel.getCat();
+        mModel.requestCat();
     }
 
     @Override
-    public void setCat(CatEntity catEntity) {
-        mView.setCat(catEntity);
+    public void onFinish(CatEntity catEntity) {
+        mView.displayCat(catEntity);
     }
 }

@@ -37,7 +37,7 @@ public class FullscreenPhotoFragment extends Fragment implements FullScreenPhoto
     }
 
     @Override
-    public void setCat(CatEntity catEntity) {
+    public void displayCat(CatEntity catEntity) {
         setPhoto(catEntity);
     }
 }

@@ -14,7 +14,7 @@ public class ExpandedPresenterImpl implements ExpandedPresenter {
 
     @Override
     public void getCat() {
-        view.assignCat(model.getCat());
+        view.displayCat(model.getCat());
     }
 
     @Override

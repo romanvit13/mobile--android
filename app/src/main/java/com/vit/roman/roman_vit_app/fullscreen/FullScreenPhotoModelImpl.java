@@ -11,7 +11,7 @@ public class FullScreenPhotoModelImpl implements FullScreenPhotoModel {
     }
 
     @Override
-    public void getCat() {
-        mOnFinishedListener.setCat(App.getCatEntity());
+    public void requestCat() {
+        mOnFinishedListener.onFinish(App.getCatEntity());
     }
 }

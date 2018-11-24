@@ -89,7 +89,7 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
     }
 
     @Override
-    public void assignCat(CatEntity catEntity) {
+    public void displayCat(CatEntity catEntity) {
         this.mCatEntity = catEntity;
     }
 

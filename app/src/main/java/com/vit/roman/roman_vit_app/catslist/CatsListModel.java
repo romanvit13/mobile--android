@@ -6,10 +6,9 @@ import java.util.List;
 
 public interface CatsListModel {
     interface OnFinishedListener {
-        void onFinished(List<CatEntity> catsArrayList, boolean isChange);
+        void onFinished(List<CatEntity> catsArrayList);
         void onFailure(Throwable t);
     }
 
-    void getCatsArrayList(CatsListModel.OnFinishedListener onFinishedListener,
-                          boolean isChange);
+    void getCatsArrayList(CatsListModel.OnFinishedListener onFinishedListener);
 }

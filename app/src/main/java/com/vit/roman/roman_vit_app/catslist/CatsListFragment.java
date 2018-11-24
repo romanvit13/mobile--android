@@ -24,7 +24,6 @@ import butterknife.OnClick;
 
 public class CatsListFragment extends Fragment implements CatsListView {
 
-    private boolean isChange = false;
     private CatsListPresenter mPresenter;
 
     @BindView(R.id.button_go_to_favourite)
@@ -41,7 +40,7 @@ public class CatsListFragment extends Fragment implements CatsListView {
         View view = inflater.inflate(R.layout.activity_items_list, container, false);
         ButterKnife.bind(this, view);
         mPresenter = new CatsListPresenterImpl(this);
-        mPresenter.requestDataFromServer(isChange);
+        mPresenter.requestDataFromServer();
         initRefreshLayout();
         return view;
     }
@@ -56,8 +55,7 @@ public class CatsListFragment extends Fragment implements CatsListView {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                isChange = true;
-                mPresenter.requestDataFromServer(isChange);
+                mPresenter.requestDataFromServer();
             }
         });
     }
@@ -67,12 +65,6 @@ public class CatsListFragment extends Fragment implements CatsListView {
         mRecyclerViewAdapter = new RecyclerViewAdapter(getActivity(), catsArrayList);
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    }
-
-    @Override
-    public void refreshData(List<CatEntity> catsArrayList) {
-        mRecyclerViewAdapter.clear();
-        mRecyclerViewAdapter.addAll(catsArrayList);
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
