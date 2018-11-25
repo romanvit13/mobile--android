@@ -1,33 +1,31 @@
 package com.vit.roman.roman_vit_app.favourites;
 
-import android.content.Context;
-
 import com.vit.roman.roman_vit_app.entity.CatEntity;
 
 import java.util.List;
 
-public class FavouritesPresenterImpl implements FavouritesPresenter, FavouritesModel.OnLoadListener {
+public class FavouritesPresenterImpl implements FavouritesPresenter {
 
-    FavouritesModel model;
-    FavouritesView view;
+    private FavouritesModel model;
+    private FavouritesView view;
 
-    public FavouritesPresenterImpl(FavouritesView view, Context context) {
+    FavouritesPresenterImpl(FavouritesView view, FavouritesModel model) {
         this.view = view;
-        this.model = new FavouritesModelImpl(this, context);
-    }
-
-    @Override
-    public void onSuccess(List<CatEntity> catEntityList) {
-        view.setDataToRecyclerView(catEntityList);
-    }
-
-    @Override
-    public void onFailure(Throwable t) {
-        view.onResponseFailure(t);
+        this.model = model;
     }
 
     @Override
     public void getCats() {
-        model.getList();
+        model.getListFromSharedPrefs(new FavouritesModel.Result() {
+            @Override
+            public void onResult(List<CatEntity> catEntities) {
+                view.setDataToRecyclerView(catEntities);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                view.onResponseFailure(throwable);
+            }
+        });
     }
 }

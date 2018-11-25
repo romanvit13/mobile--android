@@ -10,4 +10,5 @@
     <string name="no_cat">It is no cat data.</string>
     <string name="image_content_desc">Picture of a cat</string>
     <string name="launcher_img_content_desc">Launcher image</string>
+    <string name="response_failed">Response failed!</string>
 </resources>

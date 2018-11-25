@@ -25,24 +25,32 @@ public class FavouritesListFragment extends Fragment implements FavouritesView {
     FavouritesPresenter mFavouritesPresenter;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_favourites_list, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_favourites_list,
+                container, false);
         ButterKnife.bind(this, view);
-        mFavouritesPresenter = new FavouritesPresenterImpl(this, getContext());
+        providePresenter();
         mFavouritesPresenter.getCats();
         return view;
     }
 
     @Override
     public void setDataToRecyclerView(List<CatEntity> catsArrayList) {
-        FavouritesRecyclerViewAdapter recyclerViewAdapter = new FavouritesRecyclerViewAdapter(catsArrayList);
+        FavouritesRecyclerViewAdapter recyclerViewAdapter =
+                new FavouritesRecyclerViewAdapter(catsArrayList);
         mRecyclerView.setAdapter(recyclerViewAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
     public void onResponseFailure(Throwable throwable) {
-        Toast.makeText(getActivity(), "Failed: " + throwable.getMessage(),
-                Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), getString(R.string.response_failed) +
+                        throwable.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    void providePresenter() {
+        FavouritesModel favouritesModel = new FavouritesModelImpl(getContext());
+        mFavouritesPresenter = new FavouritesPresenterImpl(this, favouritesModel);
     }
 }

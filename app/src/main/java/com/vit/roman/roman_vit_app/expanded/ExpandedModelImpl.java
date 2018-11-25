@@ -22,8 +22,8 @@ public class ExpandedModelImpl implements ExpandedModel {
     @Override
     public void actionFavourite(CatEntity catEntity, Result result) {
         if (!mPreferences.getSharedPrefs().contains(catEntity.getId())) {
-           addFavourite(catEntity);
-           result.onAdd();
+            addFavourite(catEntity);
+            result.onAdd();
         } else {
             rmFavourite(catEntity);
             result.onRemove();

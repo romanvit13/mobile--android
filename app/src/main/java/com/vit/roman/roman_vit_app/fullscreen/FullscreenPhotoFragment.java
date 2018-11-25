@@ -1,6 +1,7 @@
 package com.vit.roman.roman_vit_app.fullscreen;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +23,10 @@ public class FullscreenPhotoFragment extends Fragment implements FullScreenPhoto
     FullScreenPhotoPresenter mFullScreenPhotoPresenter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_photo_fullscreen, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_photo_fullscreen,
+                container, false);
         ButterKnife.bind(this, view);
         mFullScreenPhotoPresenter = new FullScreenPhotoPresenterImpl(this);
         mFullScreenPhotoPresenter.getCat();

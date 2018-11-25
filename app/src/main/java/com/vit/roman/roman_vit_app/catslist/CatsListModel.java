@@ -10,5 +10,5 @@ public interface CatsListModel {
         void onFailure(Throwable t);
     }
 
-    void getCatsArrayList(CatsListModel.OnFinishedListener onFinishedListener);
+    void getCatsArrayList(boolean isRefresh, OnFinishedListener onFinishedListener);
 }

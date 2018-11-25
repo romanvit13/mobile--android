@@ -14,6 +14,7 @@ public interface ExpandedModel {
 
     interface Result {
         void onAdd();
+
         void onRemove();
     }
 }

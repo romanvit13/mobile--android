@@ -5,9 +5,10 @@ import com.vit.roman.roman_vit_app.entity.CatEntity;
 import java.util.List;
 
 public interface FavouritesModel {
-    interface OnLoadListener {
-        void onSuccess(List<CatEntity> catEntityList);
-        void onFailure(Throwable e);
+
+    interface Result {
+        void onResult(List<CatEntity> catEntities);
+        void onFailure(Throwable throwable);
     }
-    void getList();
+    void getListFromSharedPrefs(Result result);
 }

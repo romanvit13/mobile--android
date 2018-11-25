@@ -1,6 +1,7 @@
 package com.vit.roman.roman_vit_app.catslist;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,23 +26,23 @@ import butterknife.OnClick;
 public class CatsListFragment extends Fragment implements CatsListView {
 
     private CatsListPresenter mPresenter;
-
     @BindView(R.id.button_go_to_favourite)
     ImageButton mFavouritesButton;
     @BindView(R.id.swipe_container)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recycler_view_cats)
     RecyclerView mRecyclerView;
-    private RecyclerViewAdapter mRecyclerViewAdapter;
+    RecyclerViewAdapter mRecyclerViewAdapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.activity_items_list, container, false);
         ButterKnife.bind(this, view);
         mPresenter = new CatsListPresenterImpl(this);
         mPresenter.requestDataFromServer();
-        initRefreshLayout();
+        setRefreshListener();
         return view;
     }
 
@@ -51,11 +52,11 @@ public class CatsListFragment extends Fragment implements CatsListView {
         ((MainActivity) v.getContext()).setFragment(favouritesListFragment);
     }
 
-    private void initRefreshLayout() {
+    private void setRefreshListener() {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.requestDataFromServer();
+                mPresenter.refreshData();
             }
         });
     }
@@ -65,6 +66,13 @@ public class CatsListFragment extends Fragment implements CatsListView {
         mRecyclerViewAdapter = new RecyclerViewAdapter(getActivity(), catsArrayList);
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+    }
+
+    @Override
+    public void refreshDataInRecyclerView(List<CatEntity> catsArrayList) {
+        mRecyclerViewAdapter.clear();
+        mRecyclerViewAdapter.addAll(catsArrayList);
         mSwipeRefreshLayout.setRefreshing(false);
     }
 

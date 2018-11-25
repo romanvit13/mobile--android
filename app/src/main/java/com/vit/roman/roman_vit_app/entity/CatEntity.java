@@ -9,91 +9,91 @@ public class CatEntity {
 
     @SerializedName("id")
     @Expose
-    private String id;
+    private String mId;
     @SerializedName("url")
     @Expose
-    private String url;
+    private String mUrl;
     @SerializedName("width")
     @Expose
-    private Integer width;
+    private Integer mWidth;
     @SerializedName("height")
     @Expose
-    private Integer height;
+    private Integer mHeight;
     @SerializedName("mime_type")
     @Expose
-    private String mimeType;
+    private String mMimeType;
     @SerializedName("breeds")
     @Expose
-    private List<BreedEntity> breeds = null;
+    private List<BreedEntity> mBreeds = null;
     @SerializedName("categories")
     @Expose
-    private List<Object> categories = null;
+    private List<Object> mCategories = null;
     @SerializedName("breed_ids")
     @Expose
-    private String breedIds;
+    private String mBreedIds;
 
     public String getId() {
-        return id;
+        return mId;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.mId = id;
     }
 
     public String getUrl() {
-        return url;
+        return mUrl;
     }
 
     public void setUrl(String url) {
-        this.url = url;
+        this.mUrl = url;
     }
 
     public Integer getWidth() {
-        return width;
+        return mWidth;
     }
 
     public void setWidth(Integer width) {
-        this.width = width;
+        this.mWidth = width;
     }
 
     public Integer getHeight() {
-        return height;
+        return mHeight;
     }
 
     public void setHeight(Integer height) {
-        this.height = height;
+        this.mHeight = height;
     }
 
     public String getMimeType() {
-        return mimeType;
+        return mMimeType;
     }
 
     public void setMimeType(String mimeType) {
-        this.mimeType = mimeType;
+        this.mMimeType = mimeType;
     }
 
     public List<BreedEntity> getBreeds() {
-        return breeds;
+        return mBreeds;
     }
 
     public void setBreeds(List<BreedEntity> breeds) {
-        this.breeds = breeds;
+        this.mBreeds = breeds;
     }
 
     public List<Object> getCategories() {
-        return categories;
+        return mCategories;
     }
 
     public void setCategories(List<Object> categories) {
-        this.categories = categories;
+        this.mCategories = categories;
     }
 
     public String getBreedIds() {
-        return breedIds;
+        return mBreedIds;
     }
 
     public void setBreedIds(String breedIds) {
-        this.breedIds = breedIds;
+        this.mBreedIds = breedIds;
     }
 
 }
