@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.vit.roman.roman_vit_app.App;
 import com.vit.roman.roman_vit_app.MainActivity;
 import com.vit.roman.roman_vit_app.R;
 import com.vit.roman.roman_vit_app.entity.CatEntity;
@@ -53,7 +52,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                App.setCatEntity(mCats.get(viewHolder.getAdapterPosition()));
+                MainActivity.setCatEntity(mCats.get(viewHolder.getAdapterPosition()));
                 ExpandedFragment fragment = new ExpandedFragment();
                 ((MainActivity) view.getContext()).setFragment(fragment);
             }

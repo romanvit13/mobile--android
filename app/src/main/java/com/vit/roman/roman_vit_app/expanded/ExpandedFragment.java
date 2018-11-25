@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.vit.roman.roman_vit_app.App;
 import com.vit.roman.roman_vit_app.MainActivity;
 import com.vit.roman.roman_vit_app.R;
 import com.vit.roman.roman_vit_app.entity.CatEntity;
@@ -50,7 +49,7 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
     public void click(View v) {
         switch (v.getId()) {
             case R.id.image_view_expanded:
-                App.setCatEntity(mCatEntity);
+                MainActivity.setCatEntity(mCatEntity);
                 FullscreenPhotoFragment fullscreenPhotoFragment = new FullscreenPhotoFragment();
                 ((MainActivity) v.getContext()).setFragment(fullscreenPhotoFragment);
                 break;

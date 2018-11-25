@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
 import com.vit.roman.roman_vit_app.catslist.CatsListFragment;
+import com.vit.roman.roman_vit_app.entity.CatEntity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -14,6 +15,16 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.frame_container)
     FrameLayout frameLayout;
+
+    public static CatEntity getCatEntity() {
+        return mCatEntity;
+    }
+
+    public static void setCatEntity(CatEntity mCatEntity) {
+        MainActivity.mCatEntity = mCatEntity;
+    }
+
+    private static CatEntity mCatEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,11 +1,11 @@
 package com.vit.roman.roman_vit_app.fullscreen;
 
-import com.vit.roman.roman_vit_app.App;
+import com.vit.roman.roman_vit_app.MainActivity;
 
 public class FullScreenPhotoModelImpl implements FullScreenPhotoModel {
 
     @Override
     public void requestCat(Result result) {
-        result.onSuccess(App.getCatEntity());
+        result.onSuccess(MainActivity.getCatEntity());
     }
 }
