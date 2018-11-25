@@ -30,7 +30,7 @@ public class FavouritesListFragment extends Fragment implements FavouritesView {
         View view = inflater.inflate(R.layout.activity_favourites_list,
                 container, false);
         ButterKnife.bind(this, view);
-        providePresenter();
+        createPresenter();
         mFavouritesPresenter.getCats();
         return view;
     }
@@ -49,7 +49,7 @@ public class FavouritesListFragment extends Fragment implements FavouritesView {
                         throwable.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
-    void providePresenter() {
+    void createPresenter() {
         FavouritesModel favouritesModel = new FavouritesModelImpl(getContext());
         mFavouritesPresenter = new FavouritesPresenterImpl(this, favouritesModel);
     }

@@ -40,7 +40,7 @@ public class CatsListFragment extends Fragment implements CatsListView {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.activity_items_list, container, false);
         ButterKnife.bind(this, view);
-        mPresenter = new CatsListPresenterImpl(this);
+        createPresenter();
         mPresenter.requestDataFromServer();
         setRefreshListener();
         return view;
@@ -80,5 +80,10 @@ public class CatsListFragment extends Fragment implements CatsListView {
     public void onResponseFailure(Throwable throwable) {
         Toast.makeText(getActivity(), "Failed: " + throwable.getMessage(),
                 Toast.LENGTH_SHORT).show();
+    }
+
+    private void createPresenter() {
+        CatsListModel model = new CatsListModelImpl();
+        mPresenter = new CatsListPresenterImpl(this, model);
     }
 }

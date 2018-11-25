@@ -7,9 +7,9 @@ public class FullScreenPhotoPresenterImpl implements FullScreenPhotoPresenter {
     private FullScreenPhotoModel mModel;
     private FullScreenPhotoView mView;
 
-    FullScreenPhotoPresenterImpl(FullScreenPhotoView view) {
+    FullScreenPhotoPresenterImpl(FullScreenPhotoView view, FullScreenPhotoModel model) {
         mView = view;
-        mModel = new FullScreenPhotoModelImpl();
+        mModel = model;
     }
 
     @Override

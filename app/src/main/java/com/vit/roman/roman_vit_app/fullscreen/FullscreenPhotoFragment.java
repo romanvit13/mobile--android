@@ -28,7 +28,7 @@ public class FullscreenPhotoFragment extends Fragment implements FullScreenPhoto
         View view = inflater.inflate(R.layout.activity_photo_fullscreen,
                 container, false);
         ButterKnife.bind(this, view);
-        mFullScreenPhotoPresenter = new FullScreenPhotoPresenterImpl(this);
+        createPresenter();
         mFullScreenPhotoPresenter.getCat();
         return view;
     }
@@ -42,5 +42,10 @@ public class FullscreenPhotoFragment extends Fragment implements FullScreenPhoto
     @Override
     public void displayCat(CatEntity catEntity) {
         setPhoto(catEntity);
+    }
+
+    private void createPresenter() {
+        FullScreenPhotoModel model = new FullScreenPhotoModelImpl();
+        mFullScreenPhotoPresenter = new FullScreenPhotoPresenterImpl(this, model);
     }
 }

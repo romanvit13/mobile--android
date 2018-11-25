@@ -9,9 +9,9 @@ public class CatsListPresenterImpl implements CatsListPresenter {
     private CatsListView view;
     private CatsListModel model;
 
-    CatsListPresenterImpl(CatsListView view) {
+    CatsListPresenterImpl(CatsListView view, CatsListModel model) {
         this.view = view;
-        this.model = new CatsListModelImpl();
+        this.model = model;
     }
 
     @Override
