@@ -32,12 +32,20 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
     Button mButtonFavourites;
     private ExpandedPresenter mExpandedPresenter;
     private CatEntity mCatEntity;
+    public static final String CAT_ENTITY = "CAT_ENTITY";
 
-    public static ExpandedFragment newInstance() {
+    public static ExpandedFragment newInstance(CatEntity catEntity) {
         Bundle args = new Bundle();
         ExpandedFragment fragment = new ExpandedFragment();
+        args.putParcelable(CAT_ENTITY, catEntity);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    private void getCat() {
+        Bundle bundle = this.getArguments();
+        if (bundle!=null)
+            mCatEntity = bundle.getParcelable(CAT_ENTITY);
     }
 
     @Override
@@ -47,7 +55,7 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
         View view = inflater.inflate(R.layout.activity_item_expanded, container, false);
         ButterKnife.bind(this, view);
         createPresenter();
-        mExpandedPresenter.onCreate();
+        getCat();
         displayItems();
         return view;
     }
@@ -66,7 +74,7 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
 
     private void startFullPhotoFragment(View v) {
         MainActivity.setCatEntity(mCatEntity);
-        ((MainActivity) v.getContext()).setFragment(FullscreenPhotoFragment.newInstance());
+        ((MainActivity) v.getContext()).setFragment(FullscreenPhotoFragment.newInstance(mCatEntity));
     }
 
     private void displayItems() {

@@ -53,7 +53,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View view) {
                 MainActivity.setCatEntity(mCats.get(viewHolder.getAdapterPosition()));
-                ((MainActivity) view.getContext()).setFragment(ExpandedFragment.newInstance());
+                ((MainActivity) view.getContext()).setFragment(ExpandedFragment
+                        .newInstance(mCats.get(viewHolder.getAdapterPosition())));
             }
         });
     }

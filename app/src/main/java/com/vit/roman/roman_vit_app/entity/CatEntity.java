@@ -1,11 +1,14 @@
 package com.vit.roman.roman_vit_app.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class CatEntity {
+public class CatEntity implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -31,6 +34,55 @@ public class CatEntity {
     @SerializedName("breed_ids")
     @Expose
     private String mBreedIds;
+
+    protected CatEntity(Parcel in) {
+        mId = in.readString();
+        mUrl = in.readString();
+        if (in.readByte() == 0) {
+            mWidth = null;
+        } else {
+            mWidth = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            mHeight = null;
+        } else {
+            mHeight = in.readInt();
+        }
+        mMimeType = in.readString();
+        mBreedIds = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mId);
+        dest.writeString(mUrl);
+        if (mWidth == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(mWidth);
+        }
+        if (mHeight == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(mHeight);
+        }
+        dest.writeString(mMimeType);
+        dest.writeString(mBreedIds);
+    }
+
+    public static final Creator<CatEntity> CREATOR = new Creator<CatEntity>() {
+        @Override
+        public CatEntity createFromParcel(Parcel in) {
+            return new CatEntity(in);
+        }
+
+        @Override
+        public CatEntity[] newArray(int size) {
+            return new CatEntity[size];
+        }
+    };
 
     public String getId() {
         return mId;
@@ -95,5 +147,11 @@ public class CatEntity {
     public void setBreedIds(String breedIds) {
         this.mBreedIds = breedIds;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
 
 }

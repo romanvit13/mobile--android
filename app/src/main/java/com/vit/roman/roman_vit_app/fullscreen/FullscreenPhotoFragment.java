@@ -18,15 +18,24 @@ import uk.co.senab.photoview.PhotoView;
 
 public class FullscreenPhotoFragment extends Fragment implements FullScreenPhotoView {
 
+    public static final String CAT_ENTITY = "CAT_ENTITY";
     @BindView(R.id.photo_view)
     PhotoView mPhotoView;
     FullScreenPhotoPresenter mFullScreenPhotoPresenter;
 
-    public static FullscreenPhotoFragment newInstance() {
+    public static FullscreenPhotoFragment newInstance(CatEntity catEntity) {
         Bundle args = new Bundle();
         FullscreenPhotoFragment fragment = new FullscreenPhotoFragment();
+        args.putParcelable(CAT_ENTITY, catEntity);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    private CatEntity getCat() {
+        Bundle bundle = this.getArguments();
+        if (bundle != null)
+            return bundle.getParcelable(CAT_ENTITY);
+        else return null;
     }
 
     @Override
@@ -36,7 +45,8 @@ public class FullscreenPhotoFragment extends Fragment implements FullScreenPhoto
                 container, false);
         ButterKnife.bind(this, view);
         createPresenter();
-        mFullScreenPhotoPresenter.onCreate();
+        if (getCat() != null)
+            setPhoto(getCat());
         return view;
     }
 
@@ -48,7 +58,6 @@ public class FullscreenPhotoFragment extends Fragment implements FullScreenPhoto
 
     @Override
     public void displayCat(CatEntity catEntity) {
-        setPhoto(catEntity);
     }
 
     private void createPresenter() {
