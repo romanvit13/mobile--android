@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -28,11 +27,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<CatEntity> mCats;
     private Context mContext;
 
-    public RecyclerViewAdapter(Context context, List<CatEntity> cats) {
+    RecyclerViewAdapter(Context context, List<CatEntity> cats) {
         mCats = cats;
         mContext = context;
     }
-    
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -66,7 +65,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mCats.size();
     }
 
-    public void clear() {
+    void clear() {
         mCats.clear();
         notifyDataSetChanged();
     }
@@ -81,12 +80,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         @BindView(R.id.imageHeader)
         TextView mTextView;
 
-        RelativeLayout mRecyclerView;
-
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            mRecyclerView = itemView.findViewById(R.id.recycler_view_cats);
         }
     }
 }

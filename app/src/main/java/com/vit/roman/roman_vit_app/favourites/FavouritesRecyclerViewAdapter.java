@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -24,7 +23,7 @@ public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<Favourit
     private static final String FOLDER_NAME = "cat_images";
     private List<CatEntity> mCatEntities;
 
-    public FavouritesRecyclerViewAdapter(List<CatEntity> catEntities){
+    public FavouritesRecyclerViewAdapter(List<CatEntity> catEntities) {
         this.mCatEntities = catEntities;
     }
 
@@ -53,24 +52,21 @@ public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<Favourit
         return mCatEntities.size();
     }
 
+    public void clear() {
+        mCatEntities.clear();
+        notifyDataSetChanged();
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.imageView)
         ImageView mImageView;
         @BindView(R.id.imageHeader)
         TextView mTextView;
 
-        RelativeLayout mRecyclerView;
-
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            mRecyclerView = itemView.findViewById(R.id.recycler_view_favourites);
         }
-    }
-
-    public void clear() {
-        mCatEntities.clear();
-        notifyDataSetChanged();
     }
 
 }
