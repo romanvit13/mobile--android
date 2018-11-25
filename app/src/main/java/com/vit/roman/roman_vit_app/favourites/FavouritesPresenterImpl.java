@@ -6,26 +6,32 @@ import java.util.List;
 
 public class FavouritesPresenterImpl implements FavouritesPresenter {
 
-    private FavouritesModel model;
-    private FavouritesView view;
+    private FavouritesModel mModel;
+    private FavouritesView mView;
 
     FavouritesPresenterImpl(FavouritesView view, FavouritesModel model) {
-        this.view = view;
-        this.model = model;
+        mView = view;
+        mModel = model;
     }
 
     @Override
+    public void onCreate() {
+        getCats();
+    }
+
     public void getCats() {
-        model.getListFromSharedPrefs(new FavouritesModel.Result() {
+        mModel.getListFromSharedPrefs(new FavouritesModel.Result() {
             @Override
             public void onResult(List<CatEntity> catEntities) {
-                view.setDataToRecyclerView(catEntities);
+                mView.setDataToRecyclerView(catEntities);
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                view.onResponseFailure(throwable);
+                mView.onResponseFailure(throwable);
             }
         });
     }
+
+
 }

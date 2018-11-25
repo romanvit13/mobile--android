@@ -3,7 +3,7 @@ package com.vit.roman.roman_vit_app.favourites;
 import android.content.Context;
 
 import com.google.gson.Gson;
-import com.vit.roman.roman_vit_app.Preferences;
+import com.vit.roman.roman_vit_app.prefs.Preferences;
 import com.vit.roman.roman_vit_app.entity.CatEntity;
 
 import java.util.ArrayList;
@@ -12,9 +12,9 @@ import java.util.Map;
 
 public class FavouritesModelImpl implements FavouritesModel {
 
-    Preferences mPrefs;
+    private Preferences mPrefs;
 
-    public FavouritesModelImpl(Context context) {
+    FavouritesModelImpl(Context context) {
         this.mPrefs = new Preferences(context);
     }
 

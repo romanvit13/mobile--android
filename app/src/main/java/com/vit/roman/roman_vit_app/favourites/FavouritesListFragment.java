@@ -24,6 +24,13 @@ public class FavouritesListFragment extends Fragment implements FavouritesView {
     RecyclerView mRecyclerView;
     FavouritesPresenter mFavouritesPresenter;
 
+    public static FavouritesListFragment newInstance() {
+        Bundle args = new Bundle();
+        FavouritesListFragment fragment = new FavouritesListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -31,7 +38,7 @@ public class FavouritesListFragment extends Fragment implements FavouritesView {
                 container, false);
         ButterKnife.bind(this, view);
         createPresenter();
-        mFavouritesPresenter.getCats();
+        mFavouritesPresenter.onCreate();
         return view;
     }
 
@@ -46,7 +53,7 @@ public class FavouritesListFragment extends Fragment implements FavouritesView {
     @Override
     public void onResponseFailure(Throwable throwable) {
         Toast.makeText(getActivity(), getString(R.string.response_failed) +
-                        throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                throwable.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     void createPresenter() {

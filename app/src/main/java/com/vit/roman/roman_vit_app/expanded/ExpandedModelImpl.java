@@ -3,8 +3,8 @@ package com.vit.roman.roman_vit_app.expanded;
 import android.content.Context;
 
 import com.vit.roman.roman_vit_app.MainActivity;
-import com.vit.roman.roman_vit_app.Preferences;
 import com.vit.roman.roman_vit_app.entity.CatEntity;
+import com.vit.roman.roman_vit_app.prefs.Preferences;
 
 public class ExpandedModelImpl implements ExpandedModel {
 
@@ -20,13 +20,13 @@ public class ExpandedModelImpl implements ExpandedModel {
     }
 
     @Override
-    public void actionFavourite(CatEntity catEntity, Result result) {
-        if (!mPreferences.getSharedPrefs().contains(catEntity.getId())) {
-            addFavourite(catEntity);
-            result.onAdd();
-        } else {
+    public void doActionFavourite(CatEntity catEntity, Result result) {
+        if (mPreferences.getSharedPrefs().contains(catEntity.getId())) {
             rmFavourite(catEntity);
             result.onRemove();
+        } else {
+            addFavourite(catEntity);
+            result.onAdd();
         }
     }
 

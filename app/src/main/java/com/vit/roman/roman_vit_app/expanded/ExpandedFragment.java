@@ -33,6 +33,13 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
     private ExpandedPresenter mExpandedPresenter;
     private CatEntity mCatEntity;
 
+    public static ExpandedFragment newInstance() {
+        Bundle args = new Bundle();
+        ExpandedFragment fragment = new ExpandedFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,23 +47,26 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
         View view = inflater.inflate(R.layout.activity_item_expanded, container, false);
         ButterKnife.bind(this, view);
         createPresenter();
-        provideCat();
+        mExpandedPresenter.onCreate();
         displayItems();
         return view;
     }
 
     @OnClick({R.id.image_view_expanded, R.id.favourite_action_button})
-    public void click(View v) {
+    public void onClick(View v) {
         switch (v.getId()) {
             case R.id.image_view_expanded:
-                MainActivity.setCatEntity(mCatEntity);
-                FullscreenPhotoFragment fullscreenPhotoFragment = new FullscreenPhotoFragment();
-                ((MainActivity) v.getContext()).setFragment(fullscreenPhotoFragment);
+                startFullPhotoFragment(v);
                 break;
             case R.id.favourite_action_button:
                 mExpandedPresenter.actionFavourite(mCatEntity);
                 break;
         }
+    }
+
+    private void startFullPhotoFragment(View v) {
+        MainActivity.setCatEntity(mCatEntity);
+        ((MainActivity) v.getContext()).setFragment(FullscreenPhotoFragment.newInstance());
     }
 
     private void displayItems() {
@@ -91,10 +101,6 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
     @Override
     public void displayCat(CatEntity catEntity) {
         this.mCatEntity = catEntity;
-    }
-
-    private void provideCat() {
-        mExpandedPresenter.getCat();
     }
 
     private void createPresenter() {

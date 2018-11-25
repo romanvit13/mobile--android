@@ -6,42 +6,50 @@ import java.util.List;
 
 public class CatsListPresenterImpl implements CatsListPresenter {
 
-    private CatsListView view;
-    private CatsListModel model;
+    private CatsListView mView;
+    private CatsListModel mModel;
 
     CatsListPresenterImpl(CatsListView view, CatsListModel model) {
-        this.view = view;
-        this.model = model;
+        mView = view;
+        mModel = model;
     }
 
     @Override
-    public void requestDataFromServer() {
-        model.getCatsArrayList(false, new CatsListModel.OnFinishedListener() {
+    public void onCreate() {
+        requestDataFromServer();
+    }
+
+    @Override
+    public void onRefresh() {
+        refreshData();
+    }
+
+    private void requestDataFromServer() {
+        mModel.getCatsArrayList(false, new CatsListModel.OnFinishedListener() {
             @Override
             public void onFinished(List<CatEntity> catsArrayList) {
-                if (view != null)
-                    view.setDataToRecyclerView(catsArrayList);
+                if (mView != null)
+                    mView.setDataToRecyclerView(catsArrayList);
 
             }
 
             @Override
             public void onFailure(Throwable t) {
-                view.onResponseFailure(t);
+                mView.onResponseFailure(t);
             }
         });
     }
 
-    @Override
-    public void refreshData() {
-        model.getCatsArrayList(true, new CatsListModel.OnFinishedListener() {
+    private void refreshData() {
+        mModel.getCatsArrayList(true, new CatsListModel.OnFinishedListener() {
             @Override
             public void onFinished(List<CatEntity> catsArrayList) {
-                view.refreshDataInRecyclerView(catsArrayList);
+                mView.refreshDataInRecyclerView(catsArrayList);
             }
 
             @Override
             public void onFailure(Throwable t) {
-                view.onResponseFailure(t);
+                mView.onResponseFailure(t);
             }
         });
     }

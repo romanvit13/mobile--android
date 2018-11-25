@@ -1,4 +1,4 @@
-package com.vit.roman.roman_vit_app;
+package com.vit.roman.roman_vit_app.api;
 
 import com.vit.roman.roman_vit_app.entity.CatEntity;
 

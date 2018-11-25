@@ -2,6 +2,8 @@ package com.vit.roman.roman_vit_app;
 
 import android.app.Application;
 
+import com.vit.roman.roman_vit_app.api.CatInterface;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

@@ -4,7 +4,7 @@ import com.vit.roman.roman_vit_app.entity.CatEntity;
 
 public interface ExpandedModel {
 
-    void actionFavourite(CatEntity catEntity, Result result);
+    void doActionFavourite(CatEntity catEntity, Result result);
 
     void addFavourite(CatEntity catEntity);
 

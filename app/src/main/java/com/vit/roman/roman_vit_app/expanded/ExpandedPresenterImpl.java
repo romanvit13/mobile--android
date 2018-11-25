@@ -4,30 +4,34 @@ import com.vit.roman.roman_vit_app.entity.CatEntity;
 
 public class ExpandedPresenterImpl implements ExpandedPresenter {
 
-    private ExpandedView view;
-    private ExpandedModel model;
+    private ExpandedView mView;
+    private ExpandedModel mModel;
 
     ExpandedPresenterImpl(ExpandedView view, ExpandedModel model) {
-        this.view = view;
-        this.model = model;
+        mView = view;
+        mModel = model;
     }
 
     @Override
-    public void getCat() {
-        view.displayCat(model.getCat());
+    public void onCreate() {
+        getCat();
+    }
+
+    private void getCat() {
+        mView.displayCat(mModel.getCat());
     }
 
     @Override
     public void actionFavourite(CatEntity catEntity) {
-        model.actionFavourite(catEntity, new ExpandedModel.Result() {
+        mModel.doActionFavourite(catEntity, new ExpandedModel.Result() {
                     @Override
                     public void onAdd() {
-                        view.displayAddToFavourite();
+                        mView.displayAddToFavourite();
                     }
 
                     @Override
                     public void onRemove() {
-                        view.displayRemoveFromFavourite();
+                        mView.displayRemoveFromFavourite();
                     }
                 }
         );

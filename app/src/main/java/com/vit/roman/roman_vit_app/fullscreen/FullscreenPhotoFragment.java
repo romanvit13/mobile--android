@@ -22,6 +22,13 @@ public class FullscreenPhotoFragment extends Fragment implements FullScreenPhoto
     PhotoView mPhotoView;
     FullScreenPhotoPresenter mFullScreenPhotoPresenter;
 
+    public static FullscreenPhotoFragment newInstance() {
+        Bundle args = new Bundle();
+        FullscreenPhotoFragment fragment = new FullscreenPhotoFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -29,7 +36,7 @@ public class FullscreenPhotoFragment extends Fragment implements FullScreenPhoto
                 container, false);
         ButterKnife.bind(this, view);
         createPresenter();
-        mFullScreenPhotoPresenter.getCat();
+        mFullScreenPhotoPresenter.onCreate();
         return view;
     }
 

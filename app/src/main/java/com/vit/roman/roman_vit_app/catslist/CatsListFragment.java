@@ -12,10 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.vit.roman.roman_vit_app.MainActivity;
 import com.vit.roman.roman_vit_app.R;
 import com.vit.roman.roman_vit_app.entity.CatEntity;
 import com.vit.roman.roman_vit_app.favourites.FavouritesListFragment;
-import com.vit.roman.roman_vit_app.MainActivity;
 
 import java.util.List;
 
@@ -25,7 +25,6 @@ import butterknife.OnClick;
 
 public class CatsListFragment extends Fragment implements CatsListView {
 
-    private CatsListPresenter mPresenter;
     @BindView(R.id.button_go_to_favourite)
     ImageButton mFavouritesButton;
     @BindView(R.id.swipe_container)
@@ -33,6 +32,14 @@ public class CatsListFragment extends Fragment implements CatsListView {
     @BindView(R.id.recycler_view_cats)
     RecyclerView mRecyclerView;
     RecyclerViewAdapter mRecyclerViewAdapter;
+    private CatsListPresenter mPresenter;
+
+    public static CatsListFragment newInstance() {
+        Bundle args = new Bundle();
+        CatsListFragment fragment = new CatsListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -41,22 +48,21 @@ public class CatsListFragment extends Fragment implements CatsListView {
         View view = inflater.inflate(R.layout.activity_items_list, container, false);
         ButterKnife.bind(this, view);
         createPresenter();
-        mPresenter.requestDataFromServer();
+        mPresenter.onCreate();
         setRefreshListener();
         return view;
     }
 
     @OnClick({R.id.button_go_to_favourite})
     public void onClick(View v) {
-        FavouritesListFragment favouritesListFragment = new FavouritesListFragment();
-        ((MainActivity) v.getContext()).setFragment(favouritesListFragment);
+        ((MainActivity) v.getContext()).setFragment(FavouritesListFragment.newInstance());
     }
 
     private void setRefreshListener() {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.refreshData();
+                mPresenter.onRefresh();
             }
         });
     }
@@ -66,7 +72,6 @@ public class CatsListFragment extends Fragment implements CatsListView {
         mRecyclerViewAdapter = new RecyclerViewAdapter(getActivity(), catsArrayList);
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
     }
 
     @Override

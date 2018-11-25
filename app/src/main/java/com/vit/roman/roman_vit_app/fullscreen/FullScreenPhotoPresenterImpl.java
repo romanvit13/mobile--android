@@ -13,6 +13,10 @@ public class FullScreenPhotoPresenterImpl implements FullScreenPhotoPresenter {
     }
 
     @Override
+    public void onCreate() {
+        getCat();
+    }
+
     public void getCat() {
         mModel.requestCat(new FullScreenPhotoModel.Result() {
             @Override

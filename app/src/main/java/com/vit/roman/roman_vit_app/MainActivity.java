@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        setFragment(new CatsListFragment());
+        setFragment(CatsListFragment.newInstance());
     }
 
     public void setFragment(final Fragment fragment) {
