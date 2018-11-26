@@ -15,7 +15,9 @@ import android.widget.Toast;
 import com.vit.roman.roman_vit_app.MainActivity;
 import com.vit.roman.roman_vit_app.R;
 import com.vit.roman.roman_vit_app.entity.CatEntity;
+import com.vit.roman.roman_vit_app.expanded.ExpandedFragment;
 import com.vit.roman.roman_vit_app.favourites.FavouritesListFragment;
+import com.vit.roman.roman_vit_app.listener.OnItemClickListener;
 
 import java.util.List;
 
@@ -34,6 +36,10 @@ public class CatsListFragment extends Fragment implements CatsListView {
     RecyclerViewAdapter mRecyclerViewAdapter;
     private CatsListPresenter mPresenter;
 
+    public static CatsListFragment newInstance() {
+        return new CatsListFragment();
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,16 +52,10 @@ public class CatsListFragment extends Fragment implements CatsListView {
         return view;
     }
 
-    public static CatsListFragment newInstance() {
-        Bundle args = new Bundle();
-        CatsListFragment fragment = new CatsListFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @OnClick({R.id.button_go_to_favourite})
     public void onClick(View v) {
-        ((MainActivity) v.getContext()).setFragment(FavouritesListFragment.newInstance());
+        if (getActivity() == null) return;
+        ((MainActivity) getActivity()).setFragment(FavouritesListFragment.newInstance());
     }
 
     private void setRefreshListener() {
@@ -69,7 +69,13 @@ public class CatsListFragment extends Fragment implements CatsListView {
 
     @Override
     public void setDataToRecyclerView(List<CatEntity> catsArrayList) {
-        mRecyclerViewAdapter = new RecyclerViewAdapter(getActivity(), catsArrayList);
+        mRecyclerViewAdapter = new RecyclerViewAdapter(getActivity(), catsArrayList, new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, CatEntity catEntity) {
+                if (getActivity() == null) return;
+                ((MainActivity) getActivity()).setFragment(ExpandedFragment.newInstance(catEntity));
+            }
+        });
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }

@@ -10,8 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.vit.roman.roman_vit_app.MainActivity;
 import com.vit.roman.roman_vit_app.R;
+import com.vit.roman.roman_vit_app.listener.OnItemClickListener;
 import com.vit.roman.roman_vit_app.entity.CatEntity;
+import com.vit.roman.roman_vit_app.fullscreen.FullscreenPhotoFragment;
 
 import java.util.List;
 
@@ -36,16 +39,20 @@ public class FavouritesListFragment extends Fragment implements FavouritesView {
     }
 
     public static FavouritesListFragment newInstance() {
-        Bundle args = new Bundle();
-        FavouritesListFragment fragment = new FavouritesListFragment();
-        fragment.setArguments(args);
-        return fragment;
+        return new FavouritesListFragment();
     }
 
     @Override
     public void setDataToRecyclerView(List<CatEntity> catsArrayList) {
         FavouritesRecyclerViewAdapter recyclerViewAdapter =
-                new FavouritesRecyclerViewAdapter(catsArrayList);
+                new FavouritesRecyclerViewAdapter(catsArrayList, new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, CatEntity catEntity) {
+                        if (getActivity() == null) return;
+                        ((MainActivity) getActivity()).setFragment(FullscreenPhotoFragment
+                                .newInstance(catEntity));
+                    }
+                });
         mRecyclerView.setAdapter(recyclerViewAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }

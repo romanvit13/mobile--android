@@ -64,7 +64,7 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.image_view_expanded:
-                startFullPhotoFragment(v);
+                startFullPhotoFragment();
                 break;
             case R.id.favourite_action_button:
                 mExpandedPresenter.actionFavourite(mCatEntity);
@@ -72,8 +72,9 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
         }
     }
 
-    private void startFullPhotoFragment(View v) {
-        ((MainActivity) v.getContext()).setFragment(FullscreenPhotoFragment.newInstance(mCatEntity));
+    private void startFullPhotoFragment() {
+        if (getActivity()==null) return;
+        ((MainActivity) getActivity()).setFragment(FullscreenPhotoFragment.newInstance(mCatEntity));
     }
 
     private void displayItems() {

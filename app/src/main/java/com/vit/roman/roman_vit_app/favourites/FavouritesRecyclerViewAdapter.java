@@ -10,10 +10,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.vit.roman.roman_vit_app.MainActivity;
 import com.vit.roman.roman_vit_app.R;
+import com.vit.roman.roman_vit_app.listener.OnItemClickListener;
 import com.vit.roman.roman_vit_app.entity.CatEntity;
-import com.vit.roman.roman_vit_app.fullscreen.FullscreenPhotoFragment;
 
 import java.util.List;
 
@@ -23,9 +22,11 @@ import butterknife.ButterKnife;
 public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<FavouritesRecyclerViewAdapter.ViewHolder> {
 
     private List<CatEntity> mCatEntities;
+    private OnItemClickListener mListener;
 
-    FavouritesRecyclerViewAdapter(List<CatEntity> catEntities) {
+    FavouritesRecyclerViewAdapter(List<CatEntity> catEntities, OnItemClickListener listener) {
         this.mCatEntities = catEntities;
+        mListener = listener;
     }
 
     @NonNull
@@ -39,21 +40,7 @@ public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<Favourit
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
-        viewHolder.mTextView.setText(mCatEntities.get(i).getId());
-        RequestOptions glideOptions = new RequestOptions();
-        Glide.with(viewHolder.mImageView.getContext())
-                .asBitmap()
-                .load(mCatEntities.get(i).getUrl())
-                .apply(glideOptions.centerCrop())
-                .into(viewHolder.mImageView);
-        viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((MainActivity) view.getContext()).setFragment(FullscreenPhotoFragment
-                        .newInstance(mCatEntities.get(viewHolder.getAdapterPosition())));
-            }
-        });
-
+        viewHolder.bind(mListener, viewHolder.getAdapterPosition());
     }
 
     @Override
@@ -70,6 +57,22 @@ public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<Favourit
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+
+        private void bind(final OnItemClickListener listener, final int position) {
+            mTextView.setText(mCatEntities.get(position).getId());
+            RequestOptions glideOptions = new RequestOptions();
+            Glide.with(mImageView.getContext())
+                    .asBitmap()
+                    .load(mCatEntities.get(position).getUrl())
+                    .apply(glideOptions.centerCrop())
+                    .into(mImageView);
+            mImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClick(view, mCatEntities.get(position));
+                }
+            });
         }
     }
 
