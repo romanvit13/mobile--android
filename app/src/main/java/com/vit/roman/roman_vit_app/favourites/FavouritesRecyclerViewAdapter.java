@@ -10,8 +10,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.vit.roman.roman_vit_app.MainActivity;
 import com.vit.roman.roman_vit_app.R;
 import com.vit.roman.roman_vit_app.entity.CatEntity;
+import com.vit.roman.roman_vit_app.fullscreen.FullscreenPhotoFragment;
 
 import java.util.List;
 
@@ -20,10 +22,9 @@ import butterknife.ButterKnife;
 
 public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<FavouritesRecyclerViewAdapter.ViewHolder> {
 
-    private static final String FOLDER_NAME = "cat_images";
     private List<CatEntity> mCatEntities;
 
-    public FavouritesRecyclerViewAdapter(List<CatEntity> catEntities) {
+    FavouritesRecyclerViewAdapter(List<CatEntity> catEntities) {
         this.mCatEntities = catEntities;
     }
 
@@ -37,7 +38,7 @@ public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<Favourit
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         viewHolder.mTextView.setText(mCatEntities.get(i).getId());
         RequestOptions glideOptions = new RequestOptions();
         Glide.with(viewHolder.mImageView.getContext())
@@ -45,16 +46,19 @@ public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<Favourit
                 .load(mCatEntities.get(i).getUrl())
                 .apply(glideOptions.centerCrop())
                 .into(viewHolder.mImageView);
+        viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) view.getContext()).setFragment(FullscreenPhotoFragment
+                        .newInstance(mCatEntities.get(viewHolder.getAdapterPosition())));
+            }
+        });
+
     }
 
     @Override
     public int getItemCount() {
         return mCatEntities.size();
-    }
-
-    public void clear() {
-        mCatEntities.clear();
-        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
