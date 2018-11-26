@@ -28,7 +28,6 @@ android:
     - extra-android-support
     # Emulators
     - sys-img-x86-android-$EMULATOR_API
-    - sys-img-armeabi-v7a-android-17
     
 before_deploy:
 - cp $TRAVIS_BUILD_DIR/.keystore $HOME
