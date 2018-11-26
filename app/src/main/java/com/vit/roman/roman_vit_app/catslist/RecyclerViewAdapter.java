@@ -39,7 +39,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return new ViewHolder(view);
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int position) {
         RequestOptions glideOptions = new RequestOptions();
@@ -52,7 +51,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.setCatEntity(mCats.get(viewHolder.getAdapterPosition()));
                 ((MainActivity) view.getContext()).setFragment(ExpandedFragment
                         .newInstance(mCats.get(viewHolder.getAdapterPosition())));
             }

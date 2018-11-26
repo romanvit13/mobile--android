@@ -10,8 +10,6 @@ public interface ExpandedModel {
 
     void rmFavourite(CatEntity catEntity);
 
-    CatEntity getCat();
-
     interface Result {
         void onAdd();
 

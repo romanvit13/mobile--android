@@ -2,7 +2,6 @@ package com.vit.roman.roman_vit_app.expanded;
 
 import android.content.Context;
 
-import com.vit.roman.roman_vit_app.MainActivity;
 import com.vit.roman.roman_vit_app.entity.CatEntity;
 import com.vit.roman.roman_vit_app.prefs.Preferences;
 
@@ -12,11 +11,6 @@ public class ExpandedModelImpl implements ExpandedModel {
 
     ExpandedModelImpl(Context context) {
         this.mPreferences = new Preferences(context);
-    }
-
-    @Override
-    public CatEntity getCat() {
-        return MainActivity.getCatEntity();
     }
 
     @Override

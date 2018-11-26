@@ -13,15 +13,6 @@ public class ExpandedPresenterImpl implements ExpandedPresenter {
     }
 
     @Override
-    public void onCreate() {
-        getCat();
-    }
-
-    private void getCat() {
-        mView.displayCat(mModel.getCat());
-    }
-
-    @Override
     public void actionFavourite(CatEntity catEntity) {
         mModel.doActionFavourite(catEntity, new ExpandedModel.Result() {
                     @Override

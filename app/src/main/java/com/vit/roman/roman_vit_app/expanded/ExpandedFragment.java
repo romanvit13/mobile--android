@@ -34,6 +34,18 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
     private CatEntity mCatEntity;
     public static final String CAT_ENTITY = "CAT_ENTITY";
 
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.activity_item_expanded, container, false);
+        ButterKnife.bind(this, view);
+        createPresenter();
+        getCat();
+        displayItems();
+        return view;
+    }
+
     public static ExpandedFragment newInstance(CatEntity catEntity) {
         Bundle args = new Bundle();
         ExpandedFragment fragment = new ExpandedFragment();
@@ -46,18 +58,6 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
         Bundle bundle = this.getArguments();
         if (bundle!=null)
             mCatEntity = bundle.getParcelable(CAT_ENTITY);
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.activity_item_expanded, container, false);
-        ButterKnife.bind(this, view);
-        createPresenter();
-        getCat();
-        displayItems();
-        return view;
     }
 
     @OnClick({R.id.image_view_expanded, R.id.favourite_action_button})
@@ -73,7 +73,6 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
     }
 
     private void startFullPhotoFragment(View v) {
-        MainActivity.setCatEntity(mCatEntity);
         ((MainActivity) v.getContext()).setFragment(FullscreenPhotoFragment.newInstance(mCatEntity));
     }
 
@@ -104,11 +103,6 @@ public class ExpandedFragment extends Fragment implements ExpandedView {
         mButtonFavourites.setText(getString(R.string.favourite_button_action_add));
         Toast.makeText(getContext(), getString(R.string.favourite_button_rm),
                 Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void displayCat(CatEntity catEntity) {
-        this.mCatEntity = catEntity;
     }
 
     private void createPresenter() {

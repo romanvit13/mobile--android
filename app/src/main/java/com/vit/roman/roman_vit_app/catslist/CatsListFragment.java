@@ -34,13 +34,6 @@ public class CatsListFragment extends Fragment implements CatsListView {
     RecyclerViewAdapter mRecyclerViewAdapter;
     private CatsListPresenter mPresenter;
 
-    public static CatsListFragment newInstance() {
-        Bundle args = new Bundle();
-        CatsListFragment fragment = new CatsListFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,6 +44,13 @@ public class CatsListFragment extends Fragment implements CatsListView {
         mPresenter.onCreate();
         setRefreshListener();
         return view;
+    }
+
+    public static CatsListFragment newInstance() {
+        Bundle args = new Bundle();
+        CatsListFragment fragment = new CatsListFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @OnClick({R.id.button_go_to_favourite})

@@ -24,13 +24,6 @@ public class FavouritesListFragment extends Fragment implements FavouritesView {
     RecyclerView mRecyclerView;
     FavouritesPresenter mFavouritesPresenter;
 
-    public static FavouritesListFragment newInstance() {
-        Bundle args = new Bundle();
-        FavouritesListFragment fragment = new FavouritesListFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,6 +33,13 @@ public class FavouritesListFragment extends Fragment implements FavouritesView {
         createPresenter();
         mFavouritesPresenter.onCreate();
         return view;
+    }
+
+    public static FavouritesListFragment newInstance() {
+        Bundle args = new Bundle();
+        FavouritesListFragment fragment = new FavouritesListFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
