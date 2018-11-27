@@ -1,6 +1,5 @@
 package com.vit.roman.roman_vit_app.catslist;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,12 +24,10 @@ import butterknife.ButterKnife;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private List<CatEntity> mCats;
-    private Context mContext;
     private final OnItemClickListener mListener;
 
-    RecyclerViewAdapter(Context context, List<CatEntity> cats, OnItemClickListener listener) {
+    RecyclerViewAdapter(List<CatEntity> cats, OnItemClickListener listener) {
         mCats = cats;
-        mContext = context;
         mListener = listener;
     }
 
@@ -74,7 +71,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         private void bind(final OnItemClickListener listener, final int position) {
             RequestOptions glideOptions = new RequestOptions();
-            Glide.with(mContext)
+            Glide.with(mImageView.getContext())
                     .asBitmap()
                     .load(mCats.get(position).getUrl())
                     .apply(glideOptions.centerCrop())

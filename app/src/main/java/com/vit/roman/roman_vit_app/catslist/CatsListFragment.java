@@ -69,7 +69,7 @@ public class CatsListFragment extends Fragment implements CatsListView {
 
     @Override
     public void setDataToRecyclerView(List<CatEntity> catsArrayList) {
-        mRecyclerViewAdapter = new RecyclerViewAdapter(getActivity(), catsArrayList, new OnItemClickListener() {
+        mRecyclerViewAdapter = new RecyclerViewAdapter(catsArrayList, new OnItemClickListener() {
             @Override
             public void onItemClick(View view, CatEntity catEntity) {
                 if (getActivity() == null) return;
