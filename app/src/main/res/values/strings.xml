@@ -11,4 +11,7 @@
     <string name="image_content_desc">Picture of a cat</string>
     <string name="launcher_img_content_desc">Launcher image</string>
     <string name="response_failed">Response failed!</string>
+    <string name="get_data">Get data</string>
+    <string name="button_timer_start">Start</string>
+    <string name="button_timer_stop">Stop</string>
 </resources>
