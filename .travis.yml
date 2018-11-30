@@ -26,6 +26,15 @@ android:
     - sys-img-armeabi-v7a-android-17
 before_install:
  - chmod +x gradlew
+ deploy:
+  provider: releases
+  api_key: 7888a5134a5a92012e69fdda0ff6dfe6b8be1a53
+  file: /home/travis/build/mobile--android/app/build/outputs/apk/*
+  skip_cleanup: true
+  on:
+    repo : romanvit13/mobile--android
+    tags: false
+    all_branches: true
 script:
 - chmod +x ./gradlew
 - ./gradlew clean assembleDebug test lint
