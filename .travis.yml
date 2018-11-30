@@ -12,6 +12,11 @@ env:
     - ANDROID_TAG=google_apis
     - QEMU_AUDIO_DRV=none
 
+branches:
+  only:
+  - master
+  - /^\d+\.\d+\.\d+$/
+  
 android:
   components:
     - tools
