@@ -1,113 +1,123 @@
 package com.vit.roman.roman_vit_app.timer;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.vit.roman.roman_vit_app.MainActivity;
 import com.vit.roman.roman_vit_app.R;
 import com.vit.roman.roman_vit_app.catslist.CatsListFragment;
-import com.vit.roman.roman_vit_app.entity.CatEntity;
 
-import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import cn.iwgang.countdownview.CountdownView;
 
-public class TimerFragment extends Fragment implements TimerView {
-    private TimerPresenter mTimerPresenter;
-    private int timerCurrent = 0;
-    @BindView(R.id.timer)
-    CountdownView mTimerView;
-    @BindView(R.id.button_timer_action)
-    Button mButtonTimerAction;
-    @BindView(R.id.custom_view)
-    CustomView mTimerRoman;
+public class TimerFragment extends Fragment implements TimerView, View.OnClickListener{
+    @BindView(R.id.progressBarCircle)
+    ProgressBar mProgressBar;
+    @BindView(R.id.textViewTimer)
+    TextView mTextViewTime;
+    @BindView(R.id.button_start_timer)
+    Button mButtonStartTimer;
+    CountDownTimer mCountDownTimer;
+    TimerPresenter mPresenter;
 
-    public static TimerFragment newInstance() {
-        return new TimerFragment();
-    }
+    private long timeCountInMilliSeconds = 60000;
+    private TimerStatus timerStatus = TimerStatus.STOPPED;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.activity_timer, container, false);
+        View view = inflater.inflate(R.layout.timer_fragment, container, false);
         ButterKnife.bind(this, view);
         createPresenter();
-        mTimerPresenter.onCreate();
-        setTimerEndListener();
+        mPresenter.onCreate();
+        mButtonStartTimer.setOnClickListener(this);
         return view;
     }
 
-    @OnClick({R.id.button_timer_action})
-    public void onClick(View v) {
-        mTimerPresenter.onViewPressed(v);
+    public void setProgressbarValues() {
+        mProgressBar.setMax((int) timeCountInMilliSeconds / 1000);
+        mProgressBar.setProgress((int) timeCountInMilliSeconds / 1000);
+    }
+
+    public void setTimerValue(int time) {
+        timeCountInMilliSeconds = time * 60 * 1000;
+    }
+
+    @SuppressLint("DefaultLocale")
+    private String hmsTimeFormatter(long milliSeconds) {
+
+        return String.format("%02d:%02d:%02d",
+                TimeUnit.MILLISECONDS.toHours(milliSeconds),
+                TimeUnit.MILLISECONDS.toMinutes(milliSeconds) - TimeUnit.HOURS.
+                        toMinutes(TimeUnit.MILLISECONDS.toHours(milliSeconds)),
+                TimeUnit.MILLISECONDS.toSeconds(milliSeconds) - TimeUnit.MINUTES.
+                        toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliSeconds)));
+    }
+
+    private void setCatsFragment() {
+        if (getActivity() == null) return;
+            ((MainActivity) getActivity()).setFragment(CatsListFragment.newInstance());
+    }
+
+    public void onClick(View view) {
+        mPresenter.onButtonTimerActionPressed(timerStatus);
     }
 
     private void createPresenter() {
-        TimerModel timerModel = new TimerModelImpl();
-        mTimerPresenter = new TimerPresenterImpl(this, timerModel);
-    }
-
-    private void setTimerEndListener() {
-        mTimerView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
-            @Override
-            public void onEnd(CountdownView cv) {
-                mTimerPresenter.onTimerEnd(cv);
-            }
-        });
+        mPresenter = new TimerPresenterImpl(this);
     }
 
     @Override
     public void displayTimer() {
-        int timerDuration = 10000;
-        mTimerView.start(timerDuration);
-        mTimerRoman.start(timerDuration / 1000);
+        mCountDownTimer = new CountDownTimer(timeCountInMilliSeconds, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mTextViewTime.setText(hmsTimeFormatter(millisUntilFinished));
+                mProgressBar.setProgress((int) (millisUntilFinished / 1000));
+            }
+
+            @Override
+            public void onFinish() {
+                mCountDownTimer.cancel();
+                setCatsFragment();
+            }
+        };
     }
 
     @Override
-    public void setData(List<CatEntity> catEntities) {
-
+    public void startTimerCount() {
+        setTimerValue(1);
+        setProgressbarValues();
+        mCountDownTimer.start();
+        timerStatus = TimerStatus.STARTED;
+        mButtonStartTimer.setText(R.string.button_timer_stop);
     }
 
     @Override
-    public void showResponseError(Throwable throwable) {
-
+    public void stopTimerCount() {
+        timerStatus = TimerStatus.STOPPED;
+        mCountDownTimer.cancel();
+        mButtonStartTimer.setText(R.string.button_timer_start);
     }
 
-    @Override
-    public void startCatFragment(CountdownView cv) {
-        if (getContext() == null) return;
-        ((MainActivity) getContext()).setFragment(CatsListFragment.newInstance());
+    public enum TimerStatus {
+        STARTED,
+        STOPPED
     }
 
-    @Override
-    public void stopTimer() {
-        mTimerView.stop();
-        mTimerRoman.stop();
-        timerCurrent = mTimerView.getSecond();
-        mButtonTimerAction.setText(getString(R.string.button_timer_start));
-    }
-
-    @Override
-    public void startTimer() {
-        mTimerView.start(timerCurrent * 1000);
-        mTimerRoman.start(timerCurrent);
-        mButtonTimerAction.setText(getString(R.string.button_timer_stop));
-    }
-
-    @Override
-    public void onButtonTimerActionClicked() {
-        if (mButtonTimerAction.getText()==getString(R.string.button_timer_start))
-            mTimerPresenter.onButtonTimerActionPressed(true);
-        else
-            mTimerPresenter.onButtonTimerActionPressed(false);
+    public static TimerFragment newInstance() {
+        return new TimerFragment();
     }
 }
