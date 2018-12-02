@@ -12,11 +12,6 @@ env:
     - ANDROID_TAG=google_apis
     - QEMU_AUDIO_DRV=none
 
-branches:
-  only:
-  - master
-  - /^\d+\.\d+\.\d+$/
-  
 android:
   components:
     - tools
@@ -66,5 +61,4 @@ deploy:
   file: /home/travis/build/romanvit13/mobile--android/app/build/outputs/apk/debug/app-debug.apk
   on:
     repo: romanvit13/mobile--android
-    tags: true
     all_branches: true
