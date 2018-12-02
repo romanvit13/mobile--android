@@ -7,6 +7,8 @@ import com.vit.roman.roman_vit_app.entity.CatEntity;
 
 import java.util.List;
 
+import cn.iwgang.countdownview.CountdownView;
+
 public class TimerPresenterImpl implements TimerPresenter {
 
     private TimerView mView;
@@ -34,6 +36,12 @@ public class TimerPresenterImpl implements TimerPresenter {
     @Override
     public void onButtonTimerActionPressed(boolean isStart) {
         if (!isStart) mView.stopTimer(); else mView.startTimer();
+    }
+
+    @Override
+    public void onTimerEnd(CountdownView cv) {
+        mView.stopTimer();
+        mView.startCatFragment(cv);
     }
 
     private void getImage() {

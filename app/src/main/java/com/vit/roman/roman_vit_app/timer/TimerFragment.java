@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.vit.roman.roman_vit_app.MainActivity;
 import com.vit.roman.roman_vit_app.R;
+import com.vit.roman.roman_vit_app.catslist.CatsListFragment;
 import com.vit.roman.roman_vit_app.entity.CatEntity;
 
 import java.util.List;
@@ -20,11 +22,13 @@ import cn.iwgang.countdownview.CountdownView;
 
 public class TimerFragment extends Fragment implements TimerView {
     private TimerPresenter mTimerPresenter;
-    private CatEntity mCatEntity;
+    private int timerCurrent = 0;
     @BindView(R.id.timer)
     CountdownView mTimerView;
     @BindView(R.id.button_timer_action)
     Button mButtonTimerAction;
+    @BindView(R.id.custom_view)
+    CustomView mTimerRoman;
 
     public static TimerFragment newInstance() {
         return new TimerFragment();
@@ -38,6 +42,7 @@ public class TimerFragment extends Fragment implements TimerView {
         ButterKnife.bind(this, view);
         createPresenter();
         mTimerPresenter.onCreate();
+        setTimerEndListener();
         return view;
     }
 
@@ -51,9 +56,20 @@ public class TimerFragment extends Fragment implements TimerView {
         mTimerPresenter = new TimerPresenterImpl(this, timerModel);
     }
 
+    private void setTimerEndListener() {
+        mTimerView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
+            @Override
+            public void onEnd(CountdownView cv) {
+                mTimerPresenter.onTimerEnd(cv);
+            }
+        });
+    }
+
     @Override
     public void displayTimer() {
-        mTimerView.start(55500);
+        int timerDuration = 10000;
+        mTimerView.start(timerDuration);
+        mTimerRoman.start(timerDuration / 1000);
     }
 
     @Override
@@ -67,14 +83,23 @@ public class TimerFragment extends Fragment implements TimerView {
     }
 
     @Override
+    public void startCatFragment(CountdownView cv) {
+        if (getContext() == null) return;
+        ((MainActivity) getContext()).setFragment(CatsListFragment.newInstance());
+    }
+
+    @Override
     public void stopTimer() {
         mTimerView.stop();
+        mTimerRoman.stop();
+        timerCurrent = mTimerView.getSecond();
         mButtonTimerAction.setText(getString(R.string.button_timer_start));
     }
 
     @Override
     public void startTimer() {
-        mTimerView.start(55000);
+        mTimerView.start(timerCurrent * 1000);
+        mTimerRoman.start(timerCurrent);
         mButtonTimerAction.setText(getString(R.string.button_timer_stop));
     }
 
