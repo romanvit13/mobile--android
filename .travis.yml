@@ -61,4 +61,4 @@ deploy:
   file: /home/travis/build/romanvit13/mobile--android/app/build/outputs/apk/debug/app-debug.apk
   on:
     repo: romanvit13/mobile--android
-    all_branches: true.
+    all_branches: true
